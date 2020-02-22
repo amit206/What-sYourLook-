@@ -12,4 +12,5 @@ class Post {
     var uname:String?
     var id:String = ""
     var postText:String?
+    var curuserlike:Bool?
 }

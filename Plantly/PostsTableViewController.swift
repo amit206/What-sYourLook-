@@ -47,36 +47,29 @@ class PostsTableViewController: UITableViewController {
         cell.postText.text = st.postText
         cell.img.image = UIImage(named: "plant1")
         cell.avatar.image = UIImage(named: "avatar")
-//        if (st.uname == "name 1"){
-//            cell.like.tintColor = UIColor.red
-//        }
-        cell.like.tag = indexPath.row
-//        if let selectedIndexPath =  self.selectedIndexPath, indexPath.row == selectedIndexPath.row {
-//            cell.like.tintColor = nil
-//        } else {
-//            cell.like.tintColor = UIColor.red
-//        }
-//        print("row selected: " + String(rowSelected) + " index: " + String(indexPath.row))
-        if rowSelected <= indexPath.row {
-//            cell!.alpha = 0.5;
+        if (st.curuserlike == true){
+            cell.like.tintColor = UIColor.red
+        } else {
             cell.like.tintColor = nil
         }
-        else {
-            cell.like.tintColor = UIColor.red
-        }
+        cell.like.tag = indexPath.row
         
         cell.like.addTarget(self, action: #selector(didButtonClick(sender:)), for: .touchUpInside)
         return cell
     }
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        let cell = self.tableView.cellForRow(at: indexPath as IndexPath)
-        self.rowSelected = indexPath.row
-        print("hi: " + String(rowSelected))
-        tableView.reloadData()
-    }
+//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+////        let cell = self.tableView.cellForRow(at: indexPath as IndexPath)
+//        self.rowSelected = indexPath.row
+//        print("hi: " + String(rowSelected))
+//        print(data[rowSelected].uname!)
+//        data[rowSelected].curuserlike = true
+//        print(data[rowSelected].curuserlike)
+//        tableView.reloadData()
+//    }
     @objc func didButtonClick(sender: UIButton) {
         // your code goes here
         print(sender.tag)
+        data[sender.tag].curuserlike = true
         if(sender.tintColor == UIColor.red){
             sender.tintColor = nil
         } else {
@@ -128,7 +121,6 @@ class PostsTableViewController: UITableViewController {
                 vc.profile = selected
             }
         }
-        
         
         var selected:Profile?
         override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
