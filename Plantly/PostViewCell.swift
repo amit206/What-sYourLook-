@@ -16,7 +16,7 @@ class PostViewCell: UITableViewCell {
 
     @IBOutlet weak var img: UIImageView!
     
-    @IBOutlet weak var avatar: UIImageView!
+    @IBOutlet weak var avatar: UIImageView! 
     
     @IBOutlet weak var like: UIButton!
     
