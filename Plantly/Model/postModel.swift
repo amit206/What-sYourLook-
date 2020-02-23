@@ -11,13 +11,16 @@ class postsModel {
     
 static let postsInstance = postsModel()
 
+    var postModelSql:PostModelSql = PostModelSql()
+    
 private init(){
+    postModelSql.connect()
     for i in 0...3{
-        let st = Post()
-        st.uname = "name " + String(i)
-        st.id = String(i)
-        st.postText = "blablablablablablablablabalballblablabla \n        blablablablablablablablabalballblablabla" + String(i)
-//        print("jiiii" + String(i))
+//        st.uname = "name " + String(i)
+//        st.id = String(i)
+        var postText = "blablablablablablablablabalballblablabla \n        blablablablablablablablabalballblablabla" + String(i)
+        let st = Post(id: String(i), text: postText, imgUrl: postText)
+////        print("jiiii" + String(i))
         add(post: st)
     }
 }
@@ -25,10 +28,10 @@ private init(){
 var data = [Post]()
 
 func add(post:Post){
-    data.append(post)
+    postModelSql.add(post: post)
 }
 
 func getAllPosts()->[Post]{
-    return data
+    return postModelSql.getAllPosts()
 }
 }

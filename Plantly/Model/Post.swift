@@ -9,8 +9,15 @@
 import Foundation
 
 class Post {
-    var uname:String?
+    var uname:String?//need UId
     var id:String = ""
-    var postText:String?
+    var postText:String = ""
     var curuserlike:Bool?
+    var imgUrl:String = ""
+    
+    init(id:String, text:String, imgUrl:String){
+        self.id = id
+        self.postText = text
+        self.imgUrl = imgUrl
+    }
 }
