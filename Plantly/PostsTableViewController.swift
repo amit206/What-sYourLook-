@@ -69,10 +69,11 @@ class PostsTableViewController: UITableViewController {
     @objc func didButtonClick(sender: UIButton) {
         // your code goes here
         print(sender.tag)
-        data[sender.tag].curuserlike = true
         if(sender.tintColor == UIColor.red){
+            data[sender.tag].curuserlike = false
             sender.tintColor = nil
         } else {
+            data[sender.tag].curuserlike = true
             sender.tintColor = UIColor.red
         }
     }

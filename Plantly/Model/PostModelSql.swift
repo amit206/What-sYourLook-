@@ -27,7 +27,8 @@ class PostModelSql{
     
     func create(){
         var errormsg: UnsafeMutablePointer<Int8>? = nil
-        let res = sqlite3_exec(database, "CREATE TABLE IF NOT EXISTS POSTS (PST_ID TEXT PRIMARY KEY, PST_TEXT TEXT, IMG TEXT)", nil, nil, &errormsg);
+        sqlite3_exec(database, "drop TABLE  POSTS", nil, nil, &errormsg);//todo:delete me AND CHANGE DATE
+        let res = sqlite3_exec(database, "CREATE TABLE IF NOT EXISTS POSTS (PST_ID TEXT PRIMARY KEY, IMG_URL TEXT, LIKES_NUM INTEGER, DATE TEXT)", nil, nil, &errormsg);
         if(res != 0){
             print("error creating table");
             return
