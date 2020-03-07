@@ -42,12 +42,12 @@ class PostsTableViewController: UITableViewController {
         let cell:PostViewCell = tableView.dequeueReusableCell(withIdentifier: "Post", for: indexPath) as! PostViewCell
 
         //Configure the cell...
-        let st = data[indexPath.row]
-        cell.userName.text = st.uname
-        cell.postText.text = st.postText
+        let pst = data[indexPath.row]
+        cell.userName.text = pst.uname
+        cell.postText.text = pst.postText
         cell.img.image = UIImage(named: "plant1")
         cell.avatar.image = UIImage(named: "avatar")
-        if (st.curuserlike == true){
+        if (pst.curuserlike == true){
             cell.like.tintColor = UIColor.red
         } else {
             cell.like.tintColor = nil

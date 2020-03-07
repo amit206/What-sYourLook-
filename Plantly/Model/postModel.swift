@@ -18,7 +18,7 @@ private init(){
     for i in 0...3{
 //        st.uname = "name " + String(i)
 //        st.id = String(i)
-        var postText = "blablablablablablablablabalballblablabla \n        blablablablablablablablabalballblablabla" + String(i)
+        let postText = "blablablablablablablablabalballblablabla \n        blablablablablablablablabalballblablabla" + String(i)
         let st = Post(id: String(i), text: postText, imgUrl: postText)
 ////        print("jiiii" + String(i))
         add(post: st)
