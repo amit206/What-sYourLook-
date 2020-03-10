@@ -27,7 +27,7 @@ class PostModelSql{
     
     func create(){
         var errormsg: UnsafeMutablePointer<Int8>? = nil
-        sqlite3_exec(database, "drop TABLE  LIKES", nil, nil, &errormsg);//todo:delete me
+//        sqlite3_exec(database, "drop TABLE  LIKES", nil, nil, &errormsg);//todo:delete me
         sqlite3_exec(database, "drop TABLE  POSTS", nil, nil, &errormsg);//todo:delete me
         var res = sqlite3_exec(database, "CREATE TABLE IF NOT EXISTS POSTS (PST_ID TEXT PRIMARY KEY, USR_ID TEXT, PST_TEXT TEXT, IMG_URL TEXT, DATE TEXT)", nil, nil, &errormsg);
         if(res != 0){
@@ -53,9 +53,26 @@ class PostModelSql{
             return
         }
         
-        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (2,0);",nil, nil,&errormsg)//TODO: delme
-        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (2,1);",nil, nil,&errormsg)//TODO: delme
-        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (1,1);",nil, nil,&errormsg)//TODO: delme
+//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (2,0);",nil, nil,&errormsg)//TODO: delme
+//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (21,0);",nil, nil,&errormsg)//TODO: delme
+//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (22,0);",nil, nil,&errormsg)//TODO: delme
+//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (23,0);",nil, nil,&errormsg)//TODO: delme
+//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (24,0);",nil, nil,&errormsg)//TODO: delme
+//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (25,0);",nil, nil,&errormsg)//TODO: delme
+//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (26,0);",nil, nil,&errormsg)//TODO: delme
+//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (27,0);",nil, nil,&errormsg)//TODO: delme
+//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (28,0);",nil, nil,&errormsg)//TODO: delme
+//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (288,0);",nil, nil,&errormsg)//TODO: delme
+//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (276,0);",nil, nil,&errormsg)//TODO: delme
+//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (2766,0);",nil, nil,&errormsg)//TODO: delme
+//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (2333,0);",nil, nil,&errormsg)//TODO: delme
+//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (244,0);",nil, nil,&errormsg)//TODO: delme
+//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (255,0);",nil, nil,&errormsg)//TODO: delme
+//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (266,0);",nil, nil,&errormsg)//TODO: delme
+//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (262,0);",nil, nil,&errormsg)//TODO: delme
+//
+//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (2,1);",nil, nil,&errormsg)//TODO: delme
+//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (1,1);",nil, nil,&errormsg)//TODO: delme
         
     }
     
@@ -76,10 +93,6 @@ class PostModelSql{
                 print("new row added succefully")
             }
         }
-        
-        //        if(post.id == 1){
-        //            res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID TEXT, PST_ID TEXT) VALUES (1,1);",nil, nil,&errormsg)
-        //        }
     }
     
     func getAllPosts()->[Post]{
@@ -109,5 +122,31 @@ class PostModelSql{
         }
         sqlite3_finalize(sqlite3_stmt_post)
         return data
+    }
+    
+    func addLike(postId:String){
+        var sqlite3_stmt: OpaquePointer? = nil
+        if (sqlite3_prepare_v2(database,"INSERT OR REPLACE INTO Likes(PST_ID, USR_ID) VALUES (?,2);",-1, &sqlite3_stmt,nil) == SQLITE_OK){
+
+            sqlite3_bind_text(sqlite3_stmt, 1, postId,-1,nil);
+//            sqlite3_bind_text(sqlite3_stmt, 2, "2",-1,nil);
+
+            if(sqlite3_step(sqlite3_stmt) == SQLITE_DONE){
+                print("new row added succefully")
+            }
+        }
+    }
+    
+    func removeLike(postId:String){
+        var sqlite3_stmt: OpaquePointer? = nil
+        if (sqlite3_prepare_v2(database,"DELETE FROM likes where PST_ID = ? AND USR_ID =2;",-1, &sqlite3_stmt,nil) == SQLITE_OK){
+
+            sqlite3_bind_text(sqlite3_stmt, 1, postId,-1,nil);
+//            sqlite3_bind_text(sqlite3_stmt, 2, "2",-1,nil);
+
+            if(sqlite3_step(sqlite3_stmt) == SQLITE_DONE){
+                print("row deleted succefully")
+            }
+        }
     }
 }

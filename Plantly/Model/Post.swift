@@ -1,6 +1,6 @@
 //
 //  Post.swift
-//  Plantly
+//  What'sYourLook?
 //
 //  Created by admin on 10/02/2020.
 //  Copyright © 2020 Plants. All rights reserved.
