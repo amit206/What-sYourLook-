@@ -43,10 +43,11 @@ class PostsTableViewController: UITableViewController {
 
         //Configure the cell...
         let pst = data[indexPath.row]
-        cell.userName.text = pst.uname
+        cell.userName.text = pst.uName
         cell.postText.text = pst.postText
         cell.img.image = UIImage(named: "plant1")
         cell.avatar.image = UIImage(named: "avatar")
+        cell.likes_num.text = String(pst.likesCount)
         if (pst.curuserlike == true){
             cell.like.tintColor = UIColor.red
         } else {
@@ -127,7 +128,7 @@ class PostsTableViewController: UITableViewController {
         override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             //selected = data[indexPath.row]
             selected = Profile()
-            selected?.userName = data[indexPath.row].uname
+            selected?.userName = data[indexPath.row].uName
             performSegue(withIdentifier: "ShowProfileSegue", sender: self)
         }
 

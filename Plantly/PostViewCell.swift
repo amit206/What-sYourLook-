@@ -20,6 +20,11 @@ class PostViewCell: UITableViewCell {
     
     @IBOutlet weak var like: UIButton!
     
+    @IBOutlet weak var date: UILabel!
+    
+    @IBOutlet weak var comments: UIButton!
+    
+    @IBOutlet weak var likes_num: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

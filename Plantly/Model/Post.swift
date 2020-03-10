@@ -9,15 +9,54 @@
 import Foundation
 
 class Post {
-    var uname:String?//need UId
-    var id:String = ""
-    var postText:String = ""
-    var curuserlike:Bool?
-    var imgUrl:String = ""
     
-    init(id:String, text:String, imgUrl:String){
+    var id:String = ""
+    var imgUrl:String = ""
+    var postText:String = ""
+    var date:Date?
+    var curuserlike:Bool?
+    var commentsCount:Int?
+    var likesCount:Int
+    var uName:String?
+    var uId:String = ""
+    var userAvatar:String?
+    
+    init(id:String,
+         postText:String,
+         imgUrl:String,
+//         date:Date,
+         curuserlike:Bool,
+         commentsCount:Int,
+         likesCount:Int,
+         uname:String,
+         uId:String,
+         userAvatar:String
+         ){
         self.id = id
-        self.postText = text
+        self.postText = postText
         self.imgUrl = imgUrl
+//        self.date = date
+        self.curuserlike = curuserlike
+        self.commentsCount = commentsCount
+        self.likesCount = likesCount
+        self.uName = uname
+        self.uId = uId
+        self.userAvatar = userAvatar
     }
+    
+        init(id:String,
+             postText:String,
+             imgUrl:String,
+             uId:String
+             ){
+            self.id = id
+            self.postText = postText
+            self.imgUrl = imgUrl
+    //        self.date = date
+            self.curuserlike = false
+            self.commentsCount = 0
+            self.likesCount = 0
+            self.uId = uId
+//            self.uName = uname
+        }
 }

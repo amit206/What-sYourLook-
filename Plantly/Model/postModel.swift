@@ -19,9 +19,12 @@ private init(){
 //        st.uname = "name " + String(i)
 //        st.id = String(i)
         let postText = "blablablablablablablablabalballblablabla \n        blablablablablablablablabalballblablabla" + String(i)
-        let st = Post(id: String(i), text: postText, imgUrl: postText)
-////        print("jiiii" + String(i))
+//        let st = Post(id: String(i), postText: postText, imgUrl: postText)
+//        let st = Post(id: String(i), postText: pstText, imgUrl: postText/*, date: pstDate*/, curuserlike: true, commentsCount: 0, likesCount: Int(likesNum) ?? 888, uname: usrId, userAvatar: "Amit a,mfvdrvrd")
+        let st = Post(id: String(i), postText: postText, imgUrl: postText, uId: "1")//TODO: ID
         add(post: st)
+//        add(post: st)
+//        data.append()//todo:
     }
 }
 
