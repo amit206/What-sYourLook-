@@ -13,7 +13,7 @@ class Post {
     var id:String = ""
     var imgUrl:String = ""
     var postText:String = ""
-    var date:Date?
+    var date:String?
     var curuserlike:Bool?
     var commentsCount:Int?
     var likesCount:Int
@@ -24,7 +24,7 @@ class Post {
     init(id:String,
          postText:String,
          imgUrl:String,
-//         date:Date,
+         date:String,
          curuserlike:Bool,
          commentsCount:Int,
          likesCount:Int,
@@ -35,7 +35,7 @@ class Post {
         self.id = id
         self.postText = postText
         self.imgUrl = imgUrl
-//        self.date = date
+        self.date = date
         self.curuserlike = curuserlike
         self.commentsCount = commentsCount
         self.likesCount = likesCount

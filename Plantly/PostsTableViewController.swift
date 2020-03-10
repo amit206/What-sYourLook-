@@ -48,6 +48,7 @@ class PostsTableViewController: UITableViewController {
         cell.img.image = UIImage(named: "plant1")
         cell.avatar.image = UIImage(named: "avatar")
         cell.likes_num.text = String(pst.likesCount)
+        cell.date.text = pst.date
         if (pst.curuserlike == true){
             cell.like.tintColor = UIColor.red
         } else {

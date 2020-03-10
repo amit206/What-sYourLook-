@@ -84,47 +84,30 @@ class PostModelSql{
     
     func getAllPosts()->[Post]{
         var sqlite3_stmt_post: OpaquePointer? = nil
-        var sqlite3_stmt_cur_user_like: OpaquePointer? = nil
         var data = [Post]()
         var curUsrLike = false
-        if (sqlite3_prepare_v2(database,"SELECT posts.PST_ID, posts.USR_ID, posts.PST_TEXT, posts.IMG_URL, posts.DATE, COUNT( likes.pst_id ) FROM posts LEFT JOIN likes ON likes.pst_id = posts.pst_id GROUP BY posts.PST_ID, posts.USR_ID, posts.PST_TEXT, posts.IMG_URL, posts.DATE;",-1,&sqlite3_stmt_post,nil)
+        if (sqlite3_prepare_v2(database,"SELECT posts.PST_ID, posts.USR_ID, posts.PST_TEXT, posts.IMG_URL, posts.DATE, COUNT( likes.pst_id ), (select count( * ) from likes where likes.pst_id = posts.pst_id and likes.usr_id = 2) FROM posts LEFT JOIN likes ON likes.pst_id = posts.pst_id GROUP BY posts.PST_ID, posts.USR_ID, posts.PST_TEXT, posts.IMG_URL, posts.DATE;",-1,&sqlite3_stmt_post,nil)
             == SQLITE_OK){
+            //            sqlite3_bind_text(sqlite3_stmt_post, 1, "2".cString(using: .utf8),-1,nil);//todo:really logged user id (not usrId because it's the post's uploader)
             while(sqlite3_step(sqlite3_stmt_post) == SQLITE_ROW){
                 let pstId = String(cString:sqlite3_column_text(sqlite3_stmt_post,0)!)
                 let usrId = String(cString:sqlite3_column_text(sqlite3_stmt_post,1)!)
                 let pstText = String(cString:sqlite3_column_text(sqlite3_stmt_post,2)!)
                 let img = String(cString:sqlite3_column_text(sqlite3_stmt_post,3)!)
-                //                let pstDate = String(cString:sqlite3_column_text(sqlite3_stmt,4)!)
+                let pstDate = String(cString:sqlite3_column_text(sqlite3_stmt_post,4)!)
+                print(pstDate)
                 let likesNum = String(cString:sqlite3_column_text(sqlite3_stmt_post,5)!)
-                
-                curUsrLike = false
-                
-//                if (sqlite3_prepare_v2(database,"SELECT * FROM likes WHERE pst_id = ? AND usr_id = ?;",-1,&sqlite3_stmt_cur_user_like,nil)
-//                    == SQLITE_OK){
-                if (sqlite3_prepare_v2(database,"SELECT * FROM likes WHERE USR_ID = 2 AND PST_ID = ?;", -1, &sqlite3_stmt_cur_user_like,nil)
-                == SQLITE_OK){
-                    sqlite3_bind_text(sqlite3_stmt_cur_user_like, 1, pstId,-1,nil);
-//                    sqlite3_bind_text(sqlite3_stmt_cur_user_like, 2, String(2),-1,nil);//todo:really logged user id (not usrId because it's the post's uploader)
-                    
-                    while(sqlite3_step(sqlite3_stmt_cur_user_like) == SQLITE_ROW){
-                     print("look: " + pstId + " " +  String(cString:sqlite3_column_text(sqlite3_stmt_cur_user_like,0)!) + " " + String(cString:sqlite3_column_text(sqlite3_stmt_cur_user_like,1)!))
-                    }
-//                    if(sqlite3_step(sqlite3_stmt_cur_user_like) == SQLITE_ROW){
-//                        print( "pst id: " + pstId )
-//                        print(String(cString:sqlite3_column_text(sqlite3_stmt_cur_user_like,0)!))
-//                        if(String(cString:sqlite3_column_text(sqlite3_stmt_cur_user_like,0)!)=="1"){
-//                            curUsrLike = true
-//                        }
-//                    }
+                print(String(cString:sqlite3_column_text(sqlite3_stmt_post,6)!))
+                if((String(cString:sqlite3_column_text(sqlite3_stmt_post,6)!))=="1"){
+                    curUsrLike = true
+                }else {
+                    curUsrLike = false
                 }
-                sqlite3_finalize(sqlite3_stmt_cur_user_like)
                 
-                data.append(Post(id: pstId, postText: pstText, imgUrl: img/*, date: pstDate*/, curuserlike: curUsrLike, commentsCount: 0, likesCount: Int(likesNum) ?? 88, uname: usrId, uId:usrId, userAvatar: "Amit a,mfvdrvrd"))//todo:
+                data.append(Post(id: pstId, postText: pstText, imgUrl: img, date: pstDate, curuserlike: curUsrLike, commentsCount: 0, likesCount: Int(likesNum) ?? 88, uname: usrId, uId:usrId, userAvatar: "Amit a,mfvdrvrd"))//todo:
             }
         }
         sqlite3_finalize(sqlite3_stmt_post)
         return data
     }
 }
-var uname:String?//need UId
-var curuserlike:Bool?
