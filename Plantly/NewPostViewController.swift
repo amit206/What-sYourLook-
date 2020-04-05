@@ -51,7 +51,7 @@ UINavigationControllerDelegate {
             
 
             postsModel.postsInstance.add(post: pst);
-            self.navigationController?.popViewController(animated: true);
+
             //            }
         }
     }

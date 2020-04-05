@@ -28,7 +28,7 @@ class PostModelSql{
     func create(){
         var errormsg: UnsafeMutablePointer<Int8>? = nil
 //        sqlite3_exec(database, "drop TABLE  LIKES", nil, nil, &errormsg);//todo:delete me
-        sqlite3_exec(database, "drop TABLE  POSTS", nil, nil, &errormsg);//todo:delete me
+//        sqlite3_exec(database, "drop TABLE  POSTS", nil, nil, &errormsg);//todo:delete me
         var res = sqlite3_exec(database, "CREATE TABLE IF NOT EXISTS POSTS (PST_ID TEXT PRIMARY KEY, USR_ID TEXT, PST_TEXT TEXT, IMG_URL TEXT, DATE TEXT)", nil, nil, &errormsg);
         if(res != 0){
             print("error creating table posts");
@@ -74,6 +74,13 @@ class PostModelSql{
 //        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (2,1);",nil, nil,&errormsg)//TODO: delme
 //        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (1,1);",nil, nil,&errormsg)//TODO: delme
         
+        
+//      res = sqlite3_exec(database,"INSERT OR REPLACE INTO USERS(USR_ID, NAME, AVATAR) VALUES (1, 'AMIT1', 'firstPhoto');",nil, nil,&errormsg)//TODO: delme
+//
+//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO USERS(USR_ID, NAME, AVATAR) VALUES (2, 'AMIT2', 'secPhoto');",nil, nil,&errormsg)//TODO: delme
+//
+//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO USERS(USR_ID, NAME, AVATAR) VALUES (3, 'AMIT3', 'theardPhoto');",nil, nil,&errormsg)//TODO: delme'
+        
     }
     
     // the INSERT OR REPLACE is good for update by ID
@@ -99,7 +106,7 @@ class PostModelSql{
         var sqlite3_stmt_post: OpaquePointer? = nil
         var data = [Post]()
         var curUsrLike = false
-        if (sqlite3_prepare_v2(database,"SELECT posts.PST_ID, posts.USR_ID, posts.PST_TEXT, posts.IMG_URL, posts.DATE, COUNT( likes.pst_id ), (select count( * ) from likes where likes.pst_id = posts.pst_id and likes.usr_id = 2) FROM posts LEFT JOIN likes ON likes.pst_id = posts.pst_id GROUP BY posts.PST_ID, posts.USR_ID, posts.PST_TEXT, posts.IMG_URL, posts.DATE;",-1,&sqlite3_stmt_post,nil)
+        if (sqlite3_prepare_v2(database,"SELECT posts.PST_ID, posts.USR_ID, posts.PST_TEXT, posts.IMG_URL, posts.DATE, COUNT( likes.pst_id ), (select count( * ) from likes where likes.pst_id = posts.pst_id and likes.usr_id = 2), users.NAME FROM posts LEFT JOIN likes ON likes.pst_id = posts.pst_id LEFT JOIN users ON users.USR_ID = posts.usr_id GROUP BY posts.PST_ID, users.NAME, posts.USR_ID, posts.PST_TEXT, posts.IMG_URL, posts.DATE;",-1,&sqlite3_stmt_post,nil)
             == SQLITE_OK){
             //            sqlite3_bind_text(sqlite3_stmt_post, 1, "2".cString(using: .utf8),-1,nil);//todo:really logged user id (not usrId because it's the post's uploader)
             while(sqlite3_step(sqlite3_stmt_post) == SQLITE_ROW){
@@ -117,7 +124,8 @@ class PostModelSql{
                     curUsrLike = false
                 }
                 
-                data.append(Post(id: pstId, postText: pstText, imgUrl: img, date: pstDate, curuserlike: curUsrLike, commentsCount: 0, likesCount: Int(likesNum) ?? 88, uname: usrId, uId:usrId, userAvatar: "Amit a,mfvdrvrd"))//todo:
+                let usrName = String(cString:sqlite3_column_text(sqlite3_stmt_post,7)!)
+                data.append(Post(id: pstId, postText: pstText, imgUrl: img, date: pstDate, curuserlike: curUsrLike, commentsCount: 0, likesCount: Int(likesNum) ?? 88, uname: usrName, uId:usrId, userAvatar: "Amit a,mfvdrvrd"))//todo:
             }
         }
         sqlite3_finalize(sqlite3_stmt_post)

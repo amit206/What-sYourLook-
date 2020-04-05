@@ -11,29 +11,30 @@ class postsModel {
     
     static let postsInstance = postsModel()
     
-    var postModelSql:PostModelSql = PostModelSql()
+//    var postModelSql:PostModelSql = PostModelSql()
+    var modelFirebase:ModelFirebase = ModelFirebase()
     
     private init(){
-        postModelSql.connect()
-        for i in 0...3{
-            let postText = "blablablablablablablablabalballblablabla \n        blablablablablablablablabalballblablabla" + String(i)
-            let st = Post(id: String(i), postText: postText, imgUrl: postText, uId: "1")//TODO: ID
-            add(post: st)
-        }
+//        postModelSql.connect()
+//        for i in 0...5{
+//            let postText = "blablablablablablablablabalballblablabla \n        blablablablablablablablabalballblablabla" + String(i)
+//            let st = Post(id: String(i), postText: postText, imgUrl: postText, uId: "2")//TODO: ID
+//            add(post: st)
+//        }
     }
 
     func add(post:Post){
-        postModelSql.add(post: post)
+        modelFirebase.add(post: post)
     }
     
     func addLike(postId:String){
-        postModelSql.addLike(postId:postId)
+        modelFirebase.addLike(postId:postId)
     }
     func removeLike(postId:String){
-        postModelSql.removeLike(postId:postId)
+        modelFirebase.removeLike(postId:postId)
     }
     
     func getAllPosts()->[Post]{
-        return postModelSql.getAllPosts()
+        return modelFirebase.getAllPosts()
     }
 }

@@ -68,7 +68,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dmY-OX-hsy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-47.200000000000003" y="1120.3898050974515"/>
+            <point key="canvasLocation" x="652" y="979"/>
         </scene>
         <!--Like-->
         <scene sceneID="tne-QT-ifu">
@@ -93,7 +93,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="741" y="1122"/>
+            <point key="canvasLocation" x="-178" y="1140"/>
         </scene>
         <!--Profile-->
         <scene sceneID="29e-U1-ZqW">
@@ -118,7 +118,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="61y-Vd-gCz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="741" y="454"/>
+            <point key="canvasLocation" x="-847" y="1096"/>
         </scene>
         <!--Home-->
         <scene sceneID="bdx-Gf-QvL">
@@ -256,34 +256,6 @@
             </objects>
             <point key="canvasLocation" x="2375.1999999999998" y="-31.934032983508249"/>
         </scene>
-        <!--Table View Controller-->
-        <scene sceneID="Dxg-NW-mc9">
-            <objects>
-                <tableViewController id="yZ5-kC-Ygn" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="ZrJ-j3-UOp">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="ZdH-KZ-ELz">
-                                <rect key="frame" x="0.0" y="28" width="375" height="43.5"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZdH-KZ-ELz" id="uRF-ej-a32">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="yZ5-kC-Ygn" id="pew-Iv-Ibl"/>
-                            <outlet property="delegate" destination="yZ5-kC-Ygn" id="P9V-ze-NQg"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xo8-0a-ZT3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2809" y="652"/>
-        </scene>
         <!--Search-->
         <scene sceneID="2uE-PD-yMO">
             <objects>
@@ -298,7 +270,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3I5-O5-2yH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1545" y="795"/>
+            <point key="canvasLocation" x="1671" y="869"/>
         </scene>
         <!--Home-->
         <scene sceneID="Q96-sk-cji">
