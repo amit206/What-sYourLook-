@@ -28,7 +28,7 @@ class postsModel {
     }
     
     func removePost(postId:String){
-        modelFirebase.removePost(postId)
+        modelFirebase.removePost(postId: postId)
     }
     
     func addLike(postId:String){

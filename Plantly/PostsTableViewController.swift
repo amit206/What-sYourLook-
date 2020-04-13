@@ -11,16 +11,18 @@ import UIKit
 class PostsTableViewController: UITableViewController {
     
     var data = [Post]()
+    var observer:Any?;
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //        data = Model.instance.getAllStudents()
         
-        postsModel.postsInstance.getAllPosts{ (_data:[Post]?) in
-            if (_data != nil) {
-                self.data = _data!;
-                self.tableView.reloadData();
-            }
-        };
+        observer = ModelEvents.PostDataNotification.observe{
+            self.reloadData();
+        }
+        
+        reloadData();
+        
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -29,7 +31,20 @@ class PostsTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
-    // MARK: - Table view data source
+    deinit{
+        if let observer = observer{
+            ModelEvents.removeObserver(observer: observer)
+        }
+    }
+    
+    func reloadData(){
+        postsModel.postsInstance.getAllPosts{ (_data:[Post]?) in
+            if (_data != nil) {
+                self.data = _data!;
+                self.tableView.reloadData();
+            }
+        };
+    }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -64,7 +79,7 @@ class PostsTableViewController: UITableViewController {
         cell.like.addTarget(self, action: #selector(didButtonClick(sender:)), for: .touchUpInside)
         return cell
     }
-
+    
     
     @objc func didButtonClick(sender: UIButton) {
         let indexPath = IndexPath(item: sender.tag, section: 0)

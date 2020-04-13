@@ -29,6 +29,7 @@ class PostModelSql{
         var errormsg: UnsafeMutablePointer<Int8>? = nil
 //        sqlite3_exec(database, "drop TABLE  LIKES", nil, nil, &errormsg);//todo:delete me
 //        sqlite3_exec(database, "drop TABLE  POSTS", nil, nil, &errormsg);//todo:delete me
+                sqlite3_exec(database, "drop TABLE  COMMENTS", nil, nil, &errormsg);//todo:delete me
         var res = sqlite3_exec(database, "CREATE TABLE IF NOT EXISTS POSTS (PST_ID TEXT PRIMARY KEY, USR_ID TEXT, PST_TEXT TEXT, IMG_URL TEXT, DATE TEXT)", nil, nil, &errormsg);
         if(res != 0){
             print("error creating table posts");
@@ -47,11 +48,11 @@ class PostModelSql{
             return
         }
         
-        res = sqlite3_exec(database, "CREATE TABLE IF NOT EXISTS COMMENTS (USR_ID TEXT, PST_ID TEXT, DATE TEXT)", nil, nil, &errormsg);
-        if(res != 0){
-            print("error creating table comments");
-            return
-        }
+//        res = sqlite3_exec(database, "CREATE TABLE IF NOT EXISTS COMMENTS (USR_ID TEXT, PST_ID TEXT, DATE TEXT)", nil, nil, &errormsg);
+//        if(res != 0){
+//            print("error creating table comments");
+//            return
+//        }
         
 //        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (2,0);",nil, nil,&errormsg)//TODO: delme
 //        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (21,0);",nil, nil,&errormsg)//TODO: delme

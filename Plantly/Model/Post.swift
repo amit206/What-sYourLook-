@@ -62,6 +62,7 @@ class Post {
     init(json:[String:Any]){
         self.id = json["PST_ID"] as! String;
         self.uId = json["USR_ID"] as! String;
+//        self.uName = json["IMG_URL"] as! String;
         self.postText = json["PST_TEXT"] as! String;
         self.imgUrl = json["IMG_URL"] as! String;
         self.curuserlike = true;//json["IMG_URL"] as? Bool;

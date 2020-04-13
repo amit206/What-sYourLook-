@@ -50,7 +50,7 @@ UINavigationControllerDelegate {
             let pst = Post(id: "546", postText: self.pstText.text!, imgUrl: self.pstText.text!, uId: "2")
             
 
-            postsModel.postsInstance.add(post: pst);
+            postsModel.postsInstance.addPost(post: pst);
 
             //            }
         }
