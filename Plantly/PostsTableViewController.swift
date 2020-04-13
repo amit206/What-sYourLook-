@@ -16,20 +16,16 @@ class PostsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        data = Model.instance.getAllStudents()
+        
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl?.addTarget(self, action: #selector(reloadData), for: .valueChanged)
         
         observer = ModelEvents.PostDataNotification.observe{
             self.reloadData();
         }
         
+        self.refreshControl?.beginRefreshing()
         reloadData();
-        
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     deinit{
@@ -38,12 +34,13 @@ class PostsTableViewController: UITableViewController {
         }
     }
     
-    func reloadData(){
+    @objc func reloadData(){
         postsModel.postsInstance.getAllPosts{ (_data:[Post]?) in
             if (_data != nil) {
                 self.data = _data!;
                 self.tableView.reloadData();
             }
+            self.refreshControl?.endRefreshing()
         };
     }
     
