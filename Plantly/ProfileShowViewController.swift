@@ -19,7 +19,9 @@ class ProfileShowViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         userName.text = profile?.userName
-        img.image = UIImage(named:"avatar")
+        if profile?.avatar != ""{
+            img.kf.setImage(with: URL(string: profile!.avatar));
+        }
         // Do any additional setup after loading the view.
     }
     

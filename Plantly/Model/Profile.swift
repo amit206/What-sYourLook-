@@ -12,4 +12,5 @@ class Profile{
     var id:String = ""
     var userName:String?
     var likedUsers:[String] = []
+    var avatar:String = ""
 }

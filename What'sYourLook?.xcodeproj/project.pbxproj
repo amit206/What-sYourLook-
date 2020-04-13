@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -24,6 +24,7 @@
 		840B955923F325A200F88692 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B955823F325A200F88692 /* Profile.swift */; };
 		8470A1052402F04900AA7E33 /* PostModelSql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8470A1042402F04800AA7E33 /* PostModelSql.swift */; };
 		8470A1082402F1DE00AA7E33 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8470A1072402F1CF00AA7E33 /* libsqlite3.0.tbd */; };
+		848722D3244484F800CF720D /* FirebaseStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848722D2244484F800CF720D /* FirebaseStorage.swift */; };
 		84CC3867243A39F700CF55C1 /* ModelFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CC3866243A39F700CF55C1 /* ModelFirebase.swift */; };
 		84CC3869243A3A0200CF55C1 /* EventNotificationsBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CC3868243A3A0200CF55C1 /* EventNotificationsBase.swift */; };
 		84CC386B243A3C4800CF55C1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84CC386A243A3C4800CF55C1 /* GoogleService-Info.plist */; };
@@ -54,6 +55,7 @@
 		8470A1042402F04800AA7E33 /* PostModelSql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModelSql.swift; sourceTree = "<group>"; };
 		8470A1072402F1CF00AA7E33 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		8470A1092402F29000AA7E33 /* What'sYourLook?-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "What'sYourLook?-Bridging-Header.h"; sourceTree = "<group>"; };
+		848722D2244484F800CF720D /* FirebaseStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorage.swift; sourceTree = "<group>"; };
 		84CC3866243A39F700CF55C1 /* ModelFirebase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelFirebase.swift; sourceTree = "<group>"; };
 		84CC3868243A3A0200CF55C1 /* EventNotificationsBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventNotificationsBase.swift; sourceTree = "<group>"; };
 		84CC386A243A3C4800CF55C1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -78,7 +80,6 @@
 				80C23B94D176D2DC91758E9C /* Pods-What'sYourLook?.debug.xcconfig */,
 				260A18583D74847EFCF40421 /* Pods-What'sYourLook?.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -132,6 +133,7 @@
 				840B955423F1EF3D00F88692 /* postModel.swift */,
 				840B955823F325A200F88692 /* Profile.swift */,
 				8470A1042402F04800AA7E33 /* PostModelSql.swift */,
+				848722D2244484F800CF720D /* FirebaseStorage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -268,6 +270,7 @@
 				8470A1052402F04900AA7E33 /* PostModelSql.swift in Sources */,
 				840B955523F1EF3D00F88692 /* postModel.swift in Sources */,
 				840B955723F3252900F88692 /* ProfileShowViewController.swift in Sources */,
+				848722D3244484F800CF720D /* FirebaseStorage.swift in Sources */,
 				840B954423ED797B00F88692 /* ProfileViewController.swift in Sources */,
 				840B954823ED79A900F88692 /* NewPostViewController.swift in Sources */,
 				84CC3867243A39F700CF55C1 /* ModelFirebase.swift in Sources */,

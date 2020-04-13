@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import UIKit
+
 class postsModel {
     
     static let postsInstance = postsModel()
@@ -16,11 +18,11 @@ class postsModel {
     
     private init(){
 //        postModelSql.connect()
-        for i in 0...0{
-            let postText = "blablablablablablablablabalballblablabla \n        blablablablablablablablabalballblablabla" + String(i)
-            let st = Post(id: String(i), postText: postText, imgUrl: postText, uId: "2")//TODO: ID
+//        for i in 0...0{
+//            let postText = "blablablablablablablablabalballblablabla \n        blablablablablablablablabalballblablabla" + String(i)
+//            let st = Post(id: String(i), postText: postText, imgUrl: postText, uId: "2")//TODO: ID
 //            addPost(post: st)
-        }
+//        }
     }
 
     func addPost(post:Post){
@@ -41,4 +43,8 @@ class postsModel {
     func getAllPosts(callback:@escaping ([Post]?)->Void){
         return modelFirebase.getAllPosts(callback: callback);
     }
+    
+    func saveImage(image:UIImage, callback: @escaping (String)->Void){
+         FirebaseStorage.saveImage(image: image, callback: callback)
+     }
 }

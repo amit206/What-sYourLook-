@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class PostsTableViewController: UITableViewController {
     
@@ -65,8 +66,16 @@ class PostsTableViewController: UITableViewController {
         let pst = data[indexPath.row]
         cell.userName.text = pst.uName
         cell.postText.text = pst.postText
-        cell.img.image = UIImage(named: "plant1")
-        cell.avatar.image = UIImage(named: "avatar")
+        if pst.imgUrl != ""{
+            cell.img.kf.setImage(with: URL(string: pst.imgUrl));
+        } else {
+            cell.img.image = UIImage(named: "plant1")
+        }
+//        if pst.avatar != ""{
+//            cell.avatar.kf.setImage(with: URL(string: pst.imgUrl));
+//        } else {
+            cell.avatar.image = UIImage(named: "avatar")
+//        }
         cell.likes_num.text = String(pst.likesCount)
         cell.date.text = pst.date
         if (pst.curuserlike == true){

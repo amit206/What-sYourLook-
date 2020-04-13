@@ -14,10 +14,14 @@ UINavigationControllerDelegate {
     
     @IBOutlet weak var avatar: UIImageView!
     @IBOutlet weak var pstText: UITextField!
+    @IBOutlet weak var activity: UIActivityIndicatorView!
+    @IBOutlet weak var upImg: UIButton!
+    @IBOutlet weak var saveBtn: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         takePic()
+        activity.isHidden = true;
     }
     
     @IBAction func choosePic(_ sender: UIButton) {
@@ -46,14 +50,15 @@ UINavigationControllerDelegate {
     
     @IBAction func save(_ sender: UIButton) {
         if let image = selectedImage{
-            //            postsModel.instance.saveImage(image: image) { (url) in               print("saved image url \(url)");
-            let pst = Post(id: "546", postText: self.pstText.text!, imgUrl: self.pstText.text!, uId: "2")
-            
-
-            postsModel.postsInstance.addPost(post: pst);
-
-            //            }
+            activity.isHidden = false;
+            upImg.isEnabled = false
+            saveBtn.isEnabled = false
+            postsModel.postsInstance.saveImage(image: image) { (url) in               print("saved image url \(url)");
+                let pst = Post(id: "546", postText: self.pstText.text!, imgUrl: url, uId: "2")
+                postsModel.postsInstance.addPost(post: pst);
+                self.tabBarController?.selectedIndex = 3
+                
+            }
         }
     }
-    
 }

@@ -55,6 +55,11 @@
                                     <action selector="save:" destination="MFe-WW-4yk" eventType="touchUpInside" id="NKr-98-DoC"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="lRg-2j-0jc">
+                                <rect key="frame" x="161" y="461" width="53" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="fcX-GG-Rkg"/>
@@ -62,13 +67,16 @@
                     <tabBarItem key="tabBarItem" title="Add" image="plus" catalog="system" id="qG4-Cd-wut"/>
                     <navigationItem key="navigationItem" id="CWH-7o-w1z"/>
                     <connections>
+                        <outlet property="activity" destination="lRg-2j-0jc" id="O4h-bt-9lM"/>
                         <outlet property="avatar" destination="34c-6y-6te" id="I8p-d6-8jz"/>
                         <outlet property="pstText" destination="NIP-DF-UK7" id="gJ4-jI-7JW"/>
+                        <outlet property="saveBtn" destination="b9E-mi-F7V" id="bwP-Xr-Apq"/>
+                        <outlet property="upImg" destination="PGY-cG-Rhx" id="s1y-nE-zoc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dmY-OX-hsy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="652" y="979"/>
+            <point key="canvasLocation" x="652" y="978.26086956521749"/>
         </scene>
         <!--Like-->
         <scene sceneID="tne-QT-ifu">
@@ -209,11 +217,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Home" id="Ptp-u2-Zic">
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="fwC-ON-PW7">
-                            <connections>
-                                <segue destination="2QA-og-dXJ" kind="show" id="2ZE-ca-GnQ"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="fwC-ON-PW7"/>
                     </navigationItem>
                     <connections>
                         <segue destination="aOg-JH-GvZ" kind="show" identifier="ShowProfileSegue" id="OmF-zW-XDe"/>
@@ -266,6 +270,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="TyF-fI-Ke3"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="cQ0-bc-YKp"/>
                     <navigationItem key="navigationItem" id="tBI-gd-npA"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3I5-O5-2yH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -275,7 +280,7 @@
         <!--Home-->
         <scene sceneID="Q96-sk-cji">
             <objects>
-                <navigationController id="I4E-dK-ZXu" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="Home" id="I4E-dK-ZXu" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Home" image="house" catalog="system" selectedImage="house" id="xnc-h2-dhd"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="wEp-XB-vPL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
