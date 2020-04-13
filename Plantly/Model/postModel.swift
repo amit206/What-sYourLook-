@@ -16,15 +16,19 @@ class postsModel {
     
     private init(){
 //        postModelSql.connect()
-//        for i in 0...5{
-//            let postText = "blablablablablablablablabalballblablabla \n        blablablablablablablablabalballblablabla" + String(i)
-//            let st = Post(id: String(i), postText: postText, imgUrl: postText, uId: "2")//TODO: ID
-//            add(post: st)
-//        }
+        for i in 0...0{
+            let postText = "blablablablablablablablabalballblablabla \n        blablablablablablablablabalballblablabla" + String(i)
+            let st = Post(id: String(i), postText: postText, imgUrl: postText, uId: "2")//TODO: ID
+//            addPost(post: st)
+        }
     }
 
-    func add(post:Post){
-        modelFirebase.add(post: post)
+    func addPost(post:Post){
+        modelFirebase.addPost(post: post)
+    }
+    
+    func removePost(postId:String){
+        modelFirebase.removePost(postId)
     }
     
     func addLike(postId:String){
@@ -34,7 +38,7 @@ class postsModel {
         modelFirebase.removeLike(postId:postId)
     }
     
-    func getAllPosts()->[Post]{
-        return modelFirebase.getAllPosts()
+    func getAllPosts(callback:@escaping ([Post]?)->Void){
+        return modelFirebase.getAllPosts(callback: callback);
     }
 }

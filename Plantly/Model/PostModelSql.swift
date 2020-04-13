@@ -125,7 +125,7 @@ class PostModelSql{
                 }
                 
                 let usrName = String(cString:sqlite3_column_text(sqlite3_stmt_post,7)!)
-                data.append(Post(id: pstId, postText: pstText, imgUrl: img, date: pstDate, curuserlike: curUsrLike, commentsCount: 0, likesCount: Int(likesNum) ?? 88, uname: usrName, uId:usrId, userAvatar: "Amit a,mfvdrvrd"))//todo:
+                data.append(Post(id: pstId, postText: pstText, imgUrl: img, date: pstDate, curuserlike: curUsrLike, likesCount: Int(likesNum) ?? 88, uname: usrName, uId:usrId, userAvatar: "Amit a,mfvdrvrd"))//todo:
             }
         }
         sqlite3_finalize(sqlite3_stmt_post)

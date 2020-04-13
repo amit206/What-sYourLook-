@@ -15,7 +15,12 @@ class PostsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        data = postsModel.postsInstance.getAllPosts()
+        postsModel.postsInstance.getAllPosts{ (_data:[Post]?) in
+            if (_data != nil) {
+                self.data = _data!;
+                self.tableView.reloadData();
+            }
+        };
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
