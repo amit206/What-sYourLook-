@@ -14,7 +14,7 @@ class ModelFirebase{
     func addPost(post:Post){
         let db = Firestore.firestore()
         // Add a new document with a generated ID
-        var ref: DocumentReference? = nil
+        //        var ref: DocumentReference? = nil
         //        ref = db.collection("posts").addDocument(data: [
         //            "PST_ID": "1",
         //            "USR_ID":"2",
@@ -22,14 +22,16 @@ class ModelFirebase{
         //            "IMG_URL":"sa",
         //            "DATE":"01/01/2020"
         //            ]) { err in
-        ref = db.collection("posts").addDocument(data: post.toJson(), completion: { err in
+        let json = post.toJson()
+        db.collection("posts").document(post.id).setData( json ) {
+            err in
             if let err = err {
                 print("Error adding document: \(err)")
             } else {
-                print("Document added with ID: \(ref!.documentID)")
+                print("Document added")
                 ModelEvents.PostDataNotification.post()
             }
-        })
+        }
     }
     
     func removePost(postId:String){
@@ -43,15 +45,23 @@ class ModelFirebase{
         }
     }
     
-    func getAllPosts(callback: @escaping ([Post]?)->Void){
+    func getAllPosts(since:Int64, callback: @escaping ([Post]?)->Void){
         let db = Firestore.firestore()
-        db.collection("posts").getDocuments { (querySnapshot, err) in
+        
+        db.collection("posts").order(by: "lastUpdate").start(at: [Timestamp(seconds: since, nanoseconds: 1)]).getDocuments { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
                 callback(nil);
             } else {
                 var data = [Post]();
                 for document in querySnapshot!.documents {
+                    if let ts = document.data()["lastUpdate"] as? Timestamp{
+                        let tsDate = ts.dateValue();
+                        print("\(tsDate)");
+                        let tsDouble = tsDate.timeIntervalSince1970;
+                        print("\(tsDouble)");
+                        
+                    }
                     data.append(Post(json: document.data()));
                 }
                 callback(data);

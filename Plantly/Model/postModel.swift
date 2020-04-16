@@ -13,16 +13,11 @@ class postsModel {
     
     static let postsInstance = postsModel()
     
-//    var postModelSql:PostModelSql = PostModelSql()
     var modelFirebase:ModelFirebase = ModelFirebase()
+    var modelSql:PostModelSql = PostModelSql()
     
     private init(){
-//        postModelSql.connect()
-//        for i in 0...0{
-//            let postText = "blablablablablablablablabalballblablabla \n        blablablablablablablablabalballblablabla" + String(i)
-//            let st = Post(id: String(i), postText: postText, imgUrl: postText, uId: "2")//TODO: ID
-//            addPost(post: st)
-//        }
+        modelSql.setLastUpdate(name: "POSTS", lastUpdated: 1)
     }
 
     func addPost(post:Post){
@@ -41,10 +36,39 @@ class postsModel {
     }
     
     func getAllPosts(callback:@escaping ([Post]?)->Void){
-        return modelFirebase.getAllPosts(callback: callback);
+        //get the local last update date
+        let lud = modelSql.getLastUpdateDate(name: "POSTS");
+        
+        //get the cloud updates since the local update date
+        modelFirebase.getAllPosts(since:lud) { (data) in
+            //insert update to the local db
+            var lud:Int64 = 0;
+            for post in data!{
+                self.modelSql.add(post: post)
+                if post.lastUpdate! > lud {lud = post.lastUpdate!}
+            }
+            
+            //update the students local last update date
+            self.modelSql.setLastUpdate(name: "POSTS", lastUpdated: lud)
+            
+            // get the complete student list
+            let finalData = self.modelSql.getAllPosts()
+            callback(finalData);
+        }
+//        return modelFirebase.getAllPosts(callback: callback);
     }
     
     func saveImage(image:UIImage, callback: @escaping (String)->Void){
          FirebaseStorage.saveImage(image: image, callback: callback)
      }
+}
+
+extension Date {
+    var millisecondsSince1970:Int64 {
+        return Int64((self.timeIntervalSince1970 * 1000.0).rounded())
+    }
+
+    init(milliseconds:Int64) {
+        self = Date(timeIntervalSince1970: TimeInterval(milliseconds / 1000))
+    }
 }

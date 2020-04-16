@@ -7,25 +7,26 @@
 //
 
 import Foundation
+import Firebase
 
 class Post {
     
     var id:String = ""
     var imgUrl:String = ""
     var postText:String = ""
-    var date:String?
+    var date:String = ""
     var curuserlike:Bool?
     var likesCount:Int
     var uName:String?
     var uId:String = ""
     var userAvatar:String?
+    var lastUpdate:Int64? // server time stamp
     
     init(id:String,
          postText:String,
          imgUrl:String,
          date:String,
          curuserlike:Bool,
-//         commentsCount:Int,
          likesCount:Int,
          uname:String,
          uId:String,
@@ -36,7 +37,6 @@ class Post {
         self.imgUrl = imgUrl
         self.date = date
         self.curuserlike = curuserlike
-//        self.commentsCount = commentsCount
         self.likesCount = likesCount
         self.uName = uname
         self.uId = uId
@@ -53,10 +53,8 @@ class Post {
             self.imgUrl = imgUrl
     //        self.date = date
             self.curuserlike = false
-//            self.commentsCount = 0
             self.likesCount = 0
             self.uId = uId
-//            self.uName = uname
         }
     
     init(json:[String:Any]){
@@ -67,15 +65,28 @@ class Post {
         self.imgUrl = json["IMG_URL"] as! String;
         self.curuserlike = true;//json["IMG_URL"] as? Bool;
         self.likesCount = 999;//json["IMG_URL"] as! Int;
+        
+        let ts = json["lastUpdate"] as! Timestamp
+        self.lastUpdate = ts.seconds
 
+                    let formatter = DateFormatter()
+                    formatter.dateFormat = "dd/MM/yyyy"
+        self.date = formatter.string(from: ts.dateValue())
+
+
+        print("ts:")
+        print(ts.dateValue())
+        print(ts)
     }
     
-    func toJson() -> [String:String] {
-        var json = [String:String]();
+    func toJson() -> [String:Any] {
+        var json = [String:Any]();
         json["PST_ID"] = id
         json["PST_TEXT"] = postText
         json["USR_ID"] = uId
         json["IMG_URL"] = imgUrl
+        //TODO:
+        json["lastUpdate"] = FieldValue.serverTimestamp()
         return json;
     }
 }

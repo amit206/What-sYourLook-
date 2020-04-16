@@ -9,8 +9,9 @@
 import Foundation
 
 class Profile{
-    var id:String = ""
+//    var id:String = ""
     var userName:String?
     var likedUsers:[String] = []
     var avatar:String = ""
+    var craetedAt:Int64?
 }

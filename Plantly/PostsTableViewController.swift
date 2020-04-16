@@ -93,12 +93,12 @@ class PostsTableViewController: UITableViewController {
             data[sender.tag].curuserlike = false
             data[sender.tag].likesCount = data[sender.tag].likesCount - 1
             sender.tintColor = nil
-            postsModel.postsInstance.removeLike(postId: String(sender.tag))
+            postsModel.postsInstance.removeLike(postId: String(data[sender.tag].id))
         } else {
             data[sender.tag].curuserlike = true
             data[sender.tag].likesCount = data[sender.tag].likesCount + 1
             sender.tintColor = UIColor.red
-            postsModel.postsInstance.addLike(postId: String(sender.tag))
+            postsModel.postsInstance.addLike(postId: String(data[sender.tag].id))
         }
         self.tableView.reloadRows(at: [indexPath], with: .none)
     }
