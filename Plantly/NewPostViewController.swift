@@ -53,15 +53,15 @@ UINavigationControllerDelegate {
             activity.isHidden = false;
             upImg.isEnabled = false
             saveBtn.isEnabled = false
-            postsModel.postsInstance.saveImage(image: image) { (url) in               print("saved image url \(url)");
-
+            postsModel.postsInstance.saveImage(image: image) { (url) in
+                print("saved image url \(url)");
                 let date = Date()
                 let formatter = DateFormatter()
                 formatter.dateFormat = "HH:mm:ss.SSS"
                 
-                let pst = Post(id: "Uname" + formatter.string(from: date), postText: self.pstText.text!, imgUrl: url, uId: "2")
+                let pst = Post(id: "Uname" + formatter.string(from: date), postText: self.pstText.text!, imgUrl: url, uName: "2")//TODO:X2
                 postsModel.postsInstance.addPost(post: pst);
-                self.tabBarController?.selectedIndex = 3
+                self.tabBarController?.selectedIndex = 0
                 
             }
         }

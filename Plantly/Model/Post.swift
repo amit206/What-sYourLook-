@@ -16,11 +16,11 @@ class Post {
     var postText:String = ""
     var date:String = ""
     var curuserlike:Bool?
-    var likesCount:Int
-    var uName:String?
-    var uId:String = ""
+    var likesCount:Int = 0
+    var uName:String = ""
     var userAvatar:String?
-    var lastUpdate:Int64? // server time stamp
+    var lastUpdate:Int64?
+    var isDeleted:Bool = false
     
     init(id:String,
          postText:String,
@@ -28,39 +28,36 @@ class Post {
          date:String,
          curuserlike:Bool,
          likesCount:Int,
-         uname:String,
-         uId:String,
+         uName:String,
          userAvatar:String
-         ){
+    ){
         self.id = id
         self.postText = postText
         self.imgUrl = imgUrl
         self.date = date
         self.curuserlike = curuserlike
         self.likesCount = likesCount
-        self.uName = uname
-        self.uId = uId
+        self.uName = uName
         self.userAvatar = userAvatar
     }
     
-        init(id:String,
-             postText:String,
-             imgUrl:String,
-             uId:String
-             ){
-            self.id = id
-            self.postText = postText
-            self.imgUrl = imgUrl
-    //        self.date = date
-            self.curuserlike = false
-            self.likesCount = 0
-            self.uId = uId
-        }
+    init(id:String,
+         postText:String,
+         imgUrl:String,
+         uName:String
+    ){
+        self.id = id
+        self.postText = postText
+        self.imgUrl = imgUrl
+        self.curuserlike = false
+        self.likesCount = 0
+        self.uName = uName
+    }
     
     init(json:[String:Any]){
+        self.isDeleted = json["isDeleted"] as! Bool;
         self.id = json["PST_ID"] as! String;
-        self.uId = json["USR_ID"] as! String;
-//        self.uName = json["IMG_URL"] as! String;
+        self.uName = json["USR_ID"] as! String;
         self.postText = json["PST_TEXT"] as! String;
         self.imgUrl = json["IMG_URL"] as! String;
         self.curuserlike = true;//json["IMG_URL"] as? Bool;
@@ -68,24 +65,17 @@ class Post {
         
         let ts = json["lastUpdate"] as! Timestamp
         self.lastUpdate = ts.seconds
-
-                    let formatter = DateFormatter()
-                    formatter.dateFormat = "dd/MM/yyyy"
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
         self.date = formatter.string(from: ts.dateValue())
-
-
-        print("ts:")
-        print(ts.dateValue())
-        print(ts)
     }
     
     func toJson() -> [String:Any] {
         var json = [String:Any]();
         json["PST_ID"] = id
         json["PST_TEXT"] = postText
-        json["USR_ID"] = uId
+        json["USR_ID"] = uName
         json["IMG_URL"] = imgUrl
-        //TODO:
         json["lastUpdate"] = FieldValue.serverTimestamp()
         return json;
     }

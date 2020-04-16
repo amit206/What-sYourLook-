@@ -45,6 +45,47 @@ class ModelFirebase{
         }
     }
     
+    func addLike(like:Like){
+        let db = Firestore.firestore()
+//        // Add a new document with a generated ID
+        let json = like.toJson()
+        db.collection("likes").document(like.postId + like.usrId).setData( json ) {
+    err in
+    if let err = err {
+        print("Error adding document: \(err)")
+    } else {
+        print("Document added")
+        ModelEvents.PostDataNotification.post()//TODO: if weird errors check this
+    }
+}
+    }
+    
+    func removeLike(like:Like){
+                let db = Firestore.firestore()
+        db.collection("likes").document(like.postId + like.usrId).delete() { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }
+    }
+    
+    func addUser(profile:Profile){
+        let db = Firestore.firestore()
+        // Add a new document with a generated ID
+        let json = profile.toJson()
+        db.collection("users").document(profile.userName).setData( json ) {
+            err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document added")
+                ModelEvents.PostDataNotification.post()
+            }
+        }
+    }
+    
     func getAllPosts(since:Int64, callback: @escaping ([Post]?)->Void){
         let db = Firestore.firestore()
         
@@ -69,32 +110,51 @@ class ModelFirebase{
         };
     }
     
-    func addLike(postId:String){
+    func getAllProfiles(since:Int64, callback: @escaping ([Profile]?)->Void){//TODO
         let db = Firestore.firestore()
-        // Add a new document with a generated ID
-        var ref: DocumentReference? = nil
-        ref = db.collection("likes").addDocument(data: [
-            "PST_ID": postId,
-            "USR_ID":"2"//TODO:
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            } else {
-                print("Document added with ID: \(ref!.documentID)")
-            }
-        }
-    }
-    
-    func removeLike(postId:String){
-        let db = Firestore.firestore()
-        db.collection("likes").whereField("PST_ID", isEqualTo: postId).whereField("USR_ID", isEqualTo: "2").getDocuments() { (querySnapshot, err) in// TODO: usr_id
+        
+        db.collection("users").order(by: "lastUpdate").start(at: [Timestamp(seconds: since, nanoseconds: 1)]).getDocuments { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
+                callback(nil);
             } else {
+                var data = [Profile]();
                 for document in querySnapshot!.documents {
-                    document.reference.delete()
+                    if let ts = document.data()["lastUpdate"] as? Timestamp{
+                        let tsDate = ts.dateValue();
+//                        print("\(tsDate)");
+                        let tsDouble = tsDate.timeIntervalSince1970;
+//                        print("\(tsDouble)");
+                        
+                    }
+                    data.append(Profile(json: document.data()));
                 }
+                callback(data);
             }
-        }
+        };
+    }
+    
+    func getAllLikes(since:Int64, callback: @escaping ([Like]?)->Void){//TODO
+        let db = Firestore.firestore()
+        
+        db.collection("likes").order(by: "lastUpdate").start(at: [Timestamp(seconds: since, nanoseconds: 1)]).getDocuments { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+                callback(nil);
+            } else {
+                var data = [Like]();
+                for document in querySnapshot!.documents {
+                    if let ts = document.data()["lastUpdate"] as? Timestamp{
+                        let tsDate = ts.dateValue();
+                        print("\(tsDate)");
+                        let tsDouble = tsDate.timeIntervalSince1970;
+                        print("\(tsDouble)");
+                        
+                    }
+                    data.append(Like(json: document.data()));
+                }
+                callback(data);
+            }
+        };
     }
 }
