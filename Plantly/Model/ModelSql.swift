@@ -11,6 +11,8 @@ import SQLite3
 
 class PostModelSql{
     
+    internal let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
+    
     var database: OpaquePointer? = nil
     
     init() {
@@ -29,9 +31,9 @@ class PostModelSql{
     func create(){
         var errormsg: UnsafeMutablePointer<Int8>? = nil
         
-//        sqlite3_exec(database, "drop TABLE  LIKES", nil, nil, &errormsg);//todo:delete me
-//        sqlite3_exec(database, "drop TABLE  POSTS", nil, nil, &errormsg);//todo:delete me
-//        sqlite3_exec(database, "drop TABLE USERS", nil, nil, &errormsg);//todo:delete me
+        //        sqlite3_exec(database, "drop TABLE  LIKES", nil, nil, &errormsg);//todo:delete me
+        //        sqlite3_exec(database, "drop TABLE  POSTS", nil, nil, &errormsg);//todo:delete me
+        //        sqlite3_exec(database, "drop TABLE USERS", nil, nil, &errormsg);//todo:delete me
         
         var res = sqlite3_exec(database, "CREATE TABLE IF NOT EXISTS POSTS (PST_ID TEXT PRIMARY KEY, USR_ID TEXT, PST_TEXT TEXT, IMG_URL TEXT, DATE TEXT)", nil, nil, &errormsg);
         if(res != 0){
@@ -57,7 +59,7 @@ class PostModelSql{
             return
         }
         
-//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (3, 'Uname16:50:22.985');",nil, nil,&errormsg)//TODO: delme        
+        //        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (3, 'Uname16:50:22.985');",nil, nil,&errormsg)//TODO: delme
         
         //      res = sqlite3_exec(database,"INSERT OR REPLACE INTO USERS(USR_NAME, AVATAR, DATE) VALUES (1, 'AMIT1', '01/01/2000');",nil, nil,&errormsg)//TODO: delme
         //
@@ -153,8 +155,8 @@ class PostModelSql{
             }
         }
     }
-    internal let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
-
+    
+    
     func addProfile(profile:Profile){
         var sqlite3_stmt: OpaquePointer? = nil
         if (sqlite3_prepare_v2(database,"INSERT OR REPLACE INTO USERS(USR_NAME, PASSWORD, AVATAR, DATE ) VALUES (?,?,?,?);",-1, &sqlite3_stmt,nil) == SQLITE_OK){
@@ -167,24 +169,31 @@ class PostModelSql{
             if(sqlite3_step(sqlite3_stmt) == SQLITE_DONE){
                 print("new PROFILE added succefully")
                 
-//
-//                //TODO:DEL
-//                var sqlite3_stmt_post: OpaquePointer? = nil
-//                if (sqlite3_prepare_v2(database,"SELECT USR_NAME, PASSWORD, AVATAR, DATE FROM USERS;",-1,&sqlite3_stmt_post,nil)
-//                    == SQLITE_OK){
-//
-//                    while(sqlite3_step(sqlite3_stmt_post) == SQLITE_ROW){
-//                        let usrName = String(cString:sqlite3_column_text(sqlite3_stmt_post,0)!)//0
-//                        let password = String(cString:sqlite3_column_text(sqlite3_stmt_post,1)!)//01/02
-//                        let avatar = String(cString:sqlite3_column_text(sqlite3_stmt_post,2)!)//01/02/2
-//                        let date = String(cString:sqlite3_column_text(sqlite3_stmt_post,3)!)//01/02/2003
-//
-//                        print(usrName + password + avatar + date)
-//                    }
-//                }
-//                sqlite3_finalize(sqlite3_stmt_post)
             }
         }
+    }
+    
+    func getProfile(name:String)->Profile?{
+        var sqlite3_stmt_profile: OpaquePointer? = nil
+//        var profile:Profile
+        if (sqlite3_prepare_v2(database,"SELECT users.AVATAR, users.DATE, sum (( select count( * ) from likes where likes.pst_id = posts.pst_id )) FROM USERS LEFT JOIN posts ON users.USR_NAME = posts.usr_id LEFT JOIN likes ON likes.pst_id = posts.pst_id WHERE USR_NAME = ? group by users.AVATAR, users.DATE;",-1,&sqlite3_stmt_profile,nil)
+            == SQLITE_OK){
+            
+            sqlite3_bind_text(sqlite3_stmt_profile, 1, name,-1,SQLITE_TRANSIENT);
+            
+            while(sqlite3_step(sqlite3_stmt_profile) == SQLITE_ROW){
+                
+                let avatar = String(cString:sqlite3_column_text(sqlite3_stmt_profile,0)!)
+                let date = String(cString:sqlite3_column_text(sqlite3_stmt_profile,1)!)
+                let likesCount = Int(String(cString:sqlite3_column_text(sqlite3_stmt_profile,2)!))
+                sqlite3_finalize(sqlite3_stmt_profile)
+                return Profile(userName: name, likesCount: likesCount ?? 0, avatar: avatar, date: date)
+            }
+            
+//            return profile
+        }
+        sqlite3_finalize(sqlite3_stmt_profile)
+        return nil
     }
     
     func setLastUpdate(name:String, lastUpdated:Int64){

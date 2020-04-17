@@ -18,8 +18,23 @@ class Profile{
     var craetedAtDate:String = ""
     var lastUpdate:Int64?
     
-    init(){
-        //TODO:
+    init(userName : String, likesCount:Int, avatar:String, date:String){
+        self.userName = userName
+        self.avatar = avatar
+        self.likesCount = likesCount
+        self.craetedAtDate = date
+    }
+    
+    init(userName : String, password:String, avatar:String){
+        self.userName = userName
+        self.avatar = avatar
+        self.password = password
+        
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        
+        self.craetedAtDate = formatter.string(from: date)
     }
     
     init(json:[String:Any]){

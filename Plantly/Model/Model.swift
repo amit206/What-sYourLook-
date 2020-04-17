@@ -17,11 +17,11 @@ class postsModel {
     var modelSql:PostModelSql = PostModelSql()
     
     private init(){
-//        modelSql.setLastUpdate(name: "POSTS", lastUpdated: 1)
-//        modelSql.setLastUpdate(name: "LIKES", lastUpdated: 1)
-//        modelSql.setLastUpdate(name: "PROFILES", lastUpdated: 1)
+        //        modelSql.setLastUpdate(name: "POSTS", lastUpdated: 1)
+        //        modelSql.setLastUpdate(name: "LIKES", lastUpdated: 1)
+        //        modelSql.setLastUpdate(name: "PROFILES", lastUpdated: 1)
     }
-
+    
     func addPost(post:Post){
         modelFirebase.addPost(post: post)
     }
@@ -47,7 +47,7 @@ class postsModel {
         let lastUDLikes = modelSql.getLastUpdateDate(name: "LIKES");//Int64(1)//
         let lastUDProfile = modelSql.getLastUpdateDate(name: "PROFILES");//Int64(1)//
         
-
+        
         //get the cloud updates since the local update date
         modelFirebase.getAllProfiles(since: lastUDProfile) { (usrData) in
             //insert update to the local db
@@ -60,7 +60,7 @@ class postsModel {
             //update the students local last update date
             self.modelSql.setLastUpdate(name: "PROFILES", lastUpdated: ludProfile)
             
-//*************//
+            //*************//
             self.modelFirebase.getAllLikes(since: lastUDLikes) { (likesData) in
                 //insert update to the local db
                 var ludLikes:Int64 = 0;
@@ -77,7 +77,7 @@ class postsModel {
                 //update the students local last update date
                 self.modelSql.setLastUpdate(name: "LIKES", lastUpdated: ludLikes)
                 
-//*************//
+                //*************//
                 self.modelFirebase.getAllPosts(since:lastUDPost) { (data) in
                     //insert update to the local db
                     var ludPosts:Int64 = 0;
@@ -100,49 +100,24 @@ class postsModel {
                 }
             }
         }
-
+        
     }
     
     func saveImage(image:UIImage, callback: @escaping (String)->Void){
-         FirebaseStorage.saveImage(image: image, callback: callback)
-     }
-}
-
-extension Date {
-    var millisecondsSince1970:Int64 {
-        return Int64((self.timeIntervalSince1970 * 1000.0).rounded())
+        FirebaseStorage.saveImage(image: image, callback: callback)
     }
-
-    init(milliseconds:Int64) {
-        self = Date(timeIntervalSince1970: TimeInterval(milliseconds / 1000))
+    
+    
+    func getProfileByName(name:String)->Profile{
+        return modelSql.getProfile(name: name)!
     }
 }
-
-
-
-/*    func getAllPosts(callback:@escaping ([Post]?)->Void){
-        //get the local last update date
-        let lastUD = modelSql.getLastUpdateDate(name: "POSTS");//Int64(1)//
-        
-        //get the cloud updates since the local update date
-        modelFirebase.getAllPosts(since:lastUD) { (data) in
-            //insert update to the local db
-            var lud:Int64 = 0;
-            for post in data!{
-                if post.isDeleted == true {
-                    self.modelSql.removePost(postId: post.id)
-                } else {
-                    self.modelSql.addPost(post: post)
-                }
-                if post.lastUpdate! > lud {lud = post.lastUpdate!}
-            }
-            
-            //update the students local last update date
-            self.modelSql.setLastUpdate(name: "POSTS", lastUpdated: lud)
-            
-            // get the complete student list
-            let finalData = self.modelSql.getAllPosts()
-            callback(finalData);
-        }
-//        return modelFirebase.getAllPosts(callback: callback);
-    }*/
+//extension Date {
+//    var millisecondsSince1970:Int64 {
+//        return Int64((self.timeIntervalSince1970 * 1000.0).rounded())
+//    }
+//
+//    init(milliseconds:Int64) {
+//        self = Date(timeIntervalSince1970: TimeInterval(milliseconds / 1000))
+//    }
+//}

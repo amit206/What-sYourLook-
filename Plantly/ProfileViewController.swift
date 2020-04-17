@@ -9,12 +9,31 @@
 import UIKit
 
 class ProfileViewController: UIViewController {
+    
+//    let tableview: UITableView = {
+//        let tv = UITableView()
+//        tv.backgroundColor = UIColor.white
+//        tv.translatesAutoresizingMaskIntoConstraints = false
+//        return tv
+//    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+//        setupTableView()
     }
+
+//    func setupTableView() {
+//        tableview.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
+//        
+//        view.addSubview(tableview)
+//        
+//        NSLayoutConstraint.activate([
+//            tableview.topAnchor.constraint(equalTo: self.view.centerYAnchor),
+//            tableview.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+//            tableview.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+//            tableview.leftAnchor.constraint(equalTo: self.view.leftAnchor)
+//        ])
+//    }
     
 
     /*

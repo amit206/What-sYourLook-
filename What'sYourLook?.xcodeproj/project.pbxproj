@@ -23,6 +23,7 @@
 		840B955923F325A200F88692 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840B955823F325A200F88692 /* Profile.swift */; };
 		8470A1052402F04900AA7E33 /* ModelSql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8470A1042402F04800AA7E33 /* ModelSql.swift */; };
 		8470A1082402F1DE00AA7E33 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8470A1072402F1CF00AA7E33 /* libsqlite3.0.tbd */; };
+		847148A62449B0460088B29E /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847148A52449B0460088B29E /* ProfileTableViewCell.swift */; };
 		848722D3244484F800CF720D /* FirebaseStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848722D2244484F800CF720D /* FirebaseStorage.swift */; };
 		848722D52448AEA700CF720D /* Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848722D42448AEA700CF720D /* Like.swift */; };
 		84CC3867243A39F700CF55C1 /* ModelFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CC3866243A39F700CF55C1 /* ModelFirebase.swift */; };
@@ -54,6 +55,7 @@
 		8470A1042402F04800AA7E33 /* ModelSql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSql.swift; sourceTree = "<group>"; };
 		8470A1072402F1CF00AA7E33 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		8470A1092402F29000AA7E33 /* What'sYourLook?-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "What'sYourLook?-Bridging-Header.h"; sourceTree = "<group>"; };
+		847148A52449B0460088B29E /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		848722D2244484F800CF720D /* FirebaseStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorage.swift; sourceTree = "<group>"; };
 		848722D42448AEA700CF720D /* Like.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Like.swift; sourceTree = "<group>"; };
 		84CC3866243A39F700CF55C1 /* ModelFirebase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelFirebase.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				840B954D23F1E8F300F88692 /* PostViewCell.swift */,
 				840B955623F3252900F88692 /* ProfileShowViewController.swift */,
 				8470A1092402F29000AA7E33 /* What'sYourLook?-Bridging-Header.h */,
+				847148A52449B0460088B29E /* ProfileTableViewCell.swift */,
 			);
 			path = Plantly;
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 				840B954823ED79A900F88692 /* NewPostViewController.swift in Sources */,
 				84CC3867243A39F700CF55C1 /* ModelFirebase.swift in Sources */,
 				848722D52448AEA700CF720D /* Like.swift in Sources */,
+				847148A62449B0460088B29E /* ProfileTableViewCell.swift in Sources */,
 				840B953023ED619100F88692 /* SceneDelegate.swift in Sources */,
 				84CC3869243A3A0200CF55C1 /* EventNotificationsBase.swift in Sources */,
 				840B955123F1EA1600F88692 /* Post.swift in Sources */,

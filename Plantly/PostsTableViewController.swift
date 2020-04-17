@@ -55,6 +55,7 @@ class PostsTableViewController: UITableViewController {
     }
     
     var rowSelected:Int = 0
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell:PostViewCell = tableView.dequeueReusableCell(withIdentifier: "Post", for: indexPath) as! PostViewCell
@@ -92,13 +93,13 @@ class PostsTableViewController: UITableViewController {
         if(sender.tintColor == UIColor.red){
             data[sender.tag].curuserlike = false
             data[sender.tag].likesCount = data[sender.tag].likesCount - 1
-            sender.tintColor = nil
-            postsModel.postsInstance.removeLike(postId: String(data[sender.tag].id))
+            sender.tintColor = UIColor.lightGray
+            postsModel.postsInstance.removeLikeCurUser(postId: String(data[sender.tag].id))
         } else {
             data[sender.tag].curuserlike = true
             data[sender.tag].likesCount = data[sender.tag].likesCount + 1
             sender.tintColor = UIColor.red
-            postsModel.postsInstance.addLike(postId: String(data[sender.tag].id))
+            postsModel.postsInstance.addLikeCurUser(postId: String(data[sender.tag].id))
         }
         self.tableView.reloadRows(at: [indexPath], with: .none)
     }
@@ -144,15 +145,13 @@ class PostsTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "ShowProfileSegue"){
             let vc:ProfileShowViewController = segue.destination as! ProfileShowViewController
-            vc.profile = selected
+            vc.profileName = selected
         }
     }
     
-    var selected:Profile?
+    var selected:String = ""
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //selected = data[indexPath.row]
-        selected = Profile()
-        selected?.userName = data[indexPath.row].uName
+        selected = data[indexPath.row].uName
         performSegue(withIdentifier: "ShowProfileSegue", sender: self)
     }
     
