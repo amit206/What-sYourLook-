@@ -45,28 +45,17 @@ class ModelFirebase{
         }
     }
     
-    func addLike(like:Like){
+    func updateLike(like:Like){
         let db = Firestore.firestore()
-//        // Add a new document with a generated ID
+        
         let json = like.toJson()
         db.collection("likes").document(like.postId + like.usrId).setData( json ) {
-    err in
-    if let err = err {
-        print("Error adding document: \(err)")
-    } else {
-        print("Document added")
-        ModelEvents.PostDataNotification.post()//TODO: if weird errors check this
-    }
-}
-    }
-    
-    func removeLike(like:Like){
-                let db = Firestore.firestore()
-        db.collection("likes").document(like.postId + like.usrId).delete() { err in
+            err in
             if let err = err {
-                print("Error removing document: \(err)")
+                print("Error adding document: \(err)")
             } else {
-                print("Document successfully removed!")
+                print("Document added")
+//                ModelEvents.PostDataNotification.post()//TODO: if weird errors check this
             }
         }
     }
@@ -81,7 +70,7 @@ class ModelFirebase{
                 print("Error adding document: \(err)")
             } else {
                 print("Document added")
-                ModelEvents.PostDataNotification.post()
+//                ModelEvents.PostDataNotification.post()
             }
         }
     }
@@ -122,9 +111,9 @@ class ModelFirebase{
                 for document in querySnapshot!.documents {
                     if let ts = document.data()["lastUpdate"] as? Timestamp{
                         let tsDate = ts.dateValue();
-//                        print("\(tsDate)");
+                        //                        print("\(tsDate)");
                         let tsDouble = tsDate.timeIntervalSince1970;
-//                        print("\(tsDouble)");
+                        //                        print("\(tsDouble)");
                         
                     }
                     data.append(Profile(json: document.data()));

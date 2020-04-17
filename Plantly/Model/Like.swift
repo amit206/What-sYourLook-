@@ -16,10 +16,12 @@ class Like{
     var isDeleted:Bool = false
     
     init(postId:String,
-         usrId:String
+         usrId:String,
+         isDeleted:Bool
     ){
         self.postId = postId
         self.usrId = usrId
+        self.isDeleted = isDeleted
     }
     
     init(json:[String:Any]){
@@ -35,6 +37,7 @@ class Like{
         var json = [String:Any]();
         json["USR_ID"] = usrId
         json["PST_ID"] = postId
+        json["isDeleted"] = isDeleted
         json["lastUpdate"] = FieldValue.serverTimestamp()
         return json;
     }

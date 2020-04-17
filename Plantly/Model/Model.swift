@@ -17,9 +17,9 @@ class postsModel {
     var modelSql:PostModelSql = PostModelSql()
     
     private init(){
-        modelSql.setLastUpdate(name: "POSTS", lastUpdated: 1)
-        modelSql.setLastUpdate(name: "LIKES", lastUpdated: 1)
-        modelSql.setLastUpdate(name: "PROFILES", lastUpdated: 1)
+//        modelSql.setLastUpdate(name: "POSTS", lastUpdated: 1)
+//        modelSql.setLastUpdate(name: "LIKES", lastUpdated: 1)
+//        modelSql.setLastUpdate(name: "PROFILES", lastUpdated: 1)
     }
 
     func addPost(post:Post){
@@ -30,19 +30,24 @@ class postsModel {
         modelFirebase.removePost(postId: postId)
     }
     
-    func addLike(postId:String){
-        modelFirebase.addLike(like: Like(postId: postId, usrId: "2"))//TODO:
+    func addLikeCurUser(postId:String){
+        let like:Like = Like(postId: postId, usrId: "2", isDeleted: false)//TODO:
+        self.modelSql.addLike(like: like)
+        modelFirebase.updateLike(like: like)
     }
-    func removeLike(postId:String){
-        modelFirebase.removeLike(like: Like(postId: postId, usrId: "2"))//TODO:
+    func removeLikeCurUser(postId:String){
+        let like:Like = Like(postId: postId, usrId: "2", isDeleted: true)//TODO:
+        self.modelSql.removeLike(like: like)
+        modelFirebase.updateLike(like: like)
     }
     
     func getAllPosts(callback:@escaping ([Post]?)->Void){
         //get the local last update dates
-        let lastUDPost = Int64(1)//modelSql.getLastUpdateDate(name: "POSTS");//Int64(1)//
+        let lastUDPost = modelSql.getLastUpdateDate(name: "POSTS");//Int64(1)//
         let lastUDLikes = modelSql.getLastUpdateDate(name: "LIKES");//Int64(1)//
         let lastUDProfile = modelSql.getLastUpdateDate(name: "PROFILES");//Int64(1)//
         
+
         //get the cloud updates since the local update date
         modelFirebase.getAllProfiles(since: lastUDProfile) { (usrData) in
             //insert update to the local db
@@ -90,6 +95,7 @@ class postsModel {
                     
                     // get the complete student list
                     let finalData = self.modelSql.getAllPosts()
+                    
                     callback(finalData);
                 }
             }

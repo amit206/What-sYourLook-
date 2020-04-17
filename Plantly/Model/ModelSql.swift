@@ -29,9 +29,9 @@ class PostModelSql{
     func create(){
         var errormsg: UnsafeMutablePointer<Int8>? = nil
         
-        sqlite3_exec(database, "drop TABLE  LIKES", nil, nil, &errormsg);//todo:delete me
-        sqlite3_exec(database, "drop TABLE  POSTS", nil, nil, &errormsg);//todo:delete me
-        sqlite3_exec(database, "drop TABLE USERS", nil, nil, &errormsg);//todo:delete me
+//        sqlite3_exec(database, "drop TABLE  LIKES", nil, nil, &errormsg);//todo:delete me
+//        sqlite3_exec(database, "drop TABLE  POSTS", nil, nil, &errormsg);//todo:delete me
+//        sqlite3_exec(database, "drop TABLE USERS", nil, nil, &errormsg);//todo:delete me
         
         var res = sqlite3_exec(database, "CREATE TABLE IF NOT EXISTS POSTS (PST_ID TEXT PRIMARY KEY, USR_ID TEXT, PST_TEXT TEXT, IMG_URL TEXT, DATE TEXT)", nil, nil, &errormsg);
         if(res != 0){
@@ -57,7 +57,7 @@ class PostModelSql{
             return
         }
         
-        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (3, 'Uname16:50:22.985');",nil, nil,&errormsg)//TODO: delme        
+//        res = sqlite3_exec(database,"INSERT OR REPLACE INTO LIKES(USR_ID , PST_ID ) VALUES (3, 'Uname16:50:22.985');",nil, nil,&errormsg)//TODO: delme        
         
         //      res = sqlite3_exec(database,"INSERT OR REPLACE INTO USERS(USR_NAME, AVATAR, DATE) VALUES (1, 'AMIT1', '01/01/2000');",nil, nil,&errormsg)//TODO: delme
         //
@@ -132,8 +132,8 @@ class PostModelSql{
         var sqlite3_stmt: OpaquePointer? = nil
         if (sqlite3_prepare_v2(database,"INSERT OR REPLACE INTO Likes(PST_ID, USR_ID) VALUES (?,?);",-1, &sqlite3_stmt,nil) == SQLITE_OK){
             
-            sqlite3_bind_text(sqlite3_stmt, 1, like.postId,-1,nil);
-            sqlite3_bind_text(sqlite3_stmt, 2, like.usrId,-1,nil);
+            sqlite3_bind_text(sqlite3_stmt, 1, like.postId,-1,SQLITE_TRANSIENT);
+            sqlite3_bind_text(sqlite3_stmt, 2, like.usrId,-1,SQLITE_TRANSIENT);
             
             if(sqlite3_step(sqlite3_stmt) == SQLITE_DONE){
                 print("new LIKE added succefully")
@@ -145,8 +145,8 @@ class PostModelSql{
         var sqlite3_stmt: OpaquePointer? = nil
         if (sqlite3_prepare_v2(database,"DELETE FROM likes where PST_ID = ? AND USR_ID = ?;",-1, &sqlite3_stmt,nil) == SQLITE_OK){
             
-            sqlite3_bind_text(sqlite3_stmt, 1, like.postId,-1,nil);
-            sqlite3_bind_text(sqlite3_stmt, 2, like.usrId,-1,nil);
+            sqlite3_bind_text(sqlite3_stmt, 1, like.postId,-1,SQLITE_TRANSIENT);
+            sqlite3_bind_text(sqlite3_stmt, 2, like.usrId,-1,SQLITE_TRANSIENT);
             
             if(sqlite3_step(sqlite3_stmt) == SQLITE_DONE){
                 print("row deleted succefully")
@@ -205,7 +205,7 @@ class PostModelSql{
         var sqlite3_stmt: OpaquePointer? = nil
         if (sqlite3_prepare_v2(database,"SELECT * from LAST_UPADATE_DATE where NAME like ?;",-1,&sqlite3_stmt,nil)
             == SQLITE_OK){
-            sqlite3_bind_text(sqlite3_stmt, 1, name,-1,nil);
+            sqlite3_bind_text(sqlite3_stmt, 1, name,-1,SQLITE_TRANSIENT);
             
             if(sqlite3_step(sqlite3_stmt) == SQLITE_ROW){
                 date = Int64(sqlite3_column_int64(sqlite3_stmt,1))
