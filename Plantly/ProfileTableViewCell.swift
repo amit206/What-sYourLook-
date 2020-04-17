@@ -11,6 +11,11 @@ import UIKit
 class ProfileTableViewCell: UITableViewCell {
 
     @IBOutlet weak var postText: UILabel!
+    @IBOutlet weak var editBtn: UIButton!
+    @IBOutlet weak var delBtn: UIButton!
+    @IBOutlet weak var img: UIImageView!
+    @IBOutlet weak var date: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

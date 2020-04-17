@@ -69,11 +69,11 @@ class PostsTableViewController: UITableViewController {
         } else {
             cell.img.image = UIImage(named: "plant1")
         }
-//        if pst.avatar != ""{
-//            cell.avatar.kf.setImage(with: URL(string: pst.imgUrl));
-//        } else {
+        if pst.userAvatar != ""{
+            cell.avatar.kf.setImage(with: URL(string: pst.userAvatar!));
+        } else {
             cell.avatar.image = UIImage(named: "avatar")
-//        }
+        }
         cell.likes_num.text = String(pst.likesCount)
         cell.date.text = pst.date
         if (pst.curuserlike == true){

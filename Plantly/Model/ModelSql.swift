@@ -196,6 +196,27 @@ class PostModelSql{
         return nil
     }
     
+    func getAllPostsForProfile(name:String)->[Post]{
+        var sqlite3_stmt_post: OpaquePointer? = nil
+        var data = [Post]()
+        if (sqlite3_prepare_v2(database,"SELECT PST_ID, PST_TEXT, IMG_URL, DATE FROM posts WHERE USR_ID = ?;",-1,&sqlite3_stmt_post,nil)
+            == SQLITE_OK){
+                        sqlite3_bind_text(sqlite3_stmt_post, 1, name,-1,SQLITE_TRANSIENT);
+            
+            while(sqlite3_step(sqlite3_stmt_post) == SQLITE_ROW){
+                let pstId = String(cString:sqlite3_column_text(sqlite3_stmt_post,0)!)
+                let pstText = String(cString:sqlite3_column_text(sqlite3_stmt_post,1)!)
+                let img = String(cString:sqlite3_column_text(sqlite3_stmt_post,2)!)
+                let pstDate = String(cString:sqlite3_column_text(sqlite3_stmt_post,3)!)
+                
+                
+                data.append(Post(id: pstId, postText: pstText, imgUrl: img, date: pstDate))
+            }
+        }
+        sqlite3_finalize(sqlite3_stmt_post)
+        return data
+    }
+    
     func setLastUpdate(name:String, lastUpdated:Int64){
         var sqlite3_stmt: OpaquePointer? = nil
         if (sqlite3_prepare_v2(database,"INSERT OR REPLACE INTO LAST_UPADATE_DATE( NAME, DATE) VALUES (?,?);",-1, &sqlite3_stmt,nil) == SQLITE_OK){

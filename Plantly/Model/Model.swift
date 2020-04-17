@@ -103,6 +103,10 @@ class postsModel {
         
     }
     
+    func getAllPostsForProfile(name:String)->[Post]{
+        return modelSql.getAllPostsForProfile(name: name)
+    }
+    
     func saveImage(image:UIImage, callback: @escaping (String)->Void){
         FirebaseStorage.saveImage(image: image, callback: callback)
     }

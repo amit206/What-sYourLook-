@@ -22,6 +22,7 @@ class Post {
     var lastUpdate:Int64?
     var isDeleted:Bool = false
     
+    // post for main list
     init(id:String,
          postText:String,
          imgUrl:String,
@@ -41,6 +42,7 @@ class Post {
         self.userAvatar = userAvatar
     }
     
+    // post creation
     init(id:String,
          postText:String,
          imgUrl:String,
@@ -54,6 +56,18 @@ class Post {
         self.uName = uName
     }
     
+    // post for profile list
+    init(id:String,
+         postText:String,
+         imgUrl:String,
+         date:String
+    ){
+        self.id = id
+        self.postText = postText
+        self.imgUrl = imgUrl
+        self.date = date
+    }
+    
     init(json:[String:Any]){
         self.isDeleted = json["isDeleted"] as! Bool;
         self.id = json["PST_ID"] as! String;
@@ -61,7 +75,6 @@ class Post {
         self.postText = json["PST_TEXT"] as! String;
         self.imgUrl = json["IMG_URL"] as! String;
         self.curuserlike = true;//json["IMG_URL"] as? Bool;
-        self.likesCount = 999;//json["IMG_URL"] as! Int;
         
         let ts = json["lastUpdate"] as! Timestamp
         self.lastUpdate = ts.seconds
