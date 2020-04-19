@@ -68,7 +68,7 @@ class Post {
         self.date = date
     }
     
-    init(json:[String:Any]){
+    init(json:[String:Any]){ 
         self.isDeleted = json["isDeleted"] as! Bool;
         self.id = json["PST_ID"] as! String;
         self.uName = json["USR_ID"] as! String;
