@@ -14,8 +14,6 @@ class PostsTableViewController: UITableViewController {
     var data = [Post]()
     var observer:Any?;
     
-//    @IBOutlet var tableView: UITableView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,11 +27,6 @@ class PostsTableViewController: UITableViewController {
         self.refreshControl?.beginRefreshing()
         reloadData();
         
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-//        reloadData()
     }
     
     deinit{

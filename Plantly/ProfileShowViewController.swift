@@ -23,17 +23,10 @@ class ProfileShowViewController: UIViewController, UITableViewDelegate,  UITable
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var userName: UILabel!
-    @IBOutlet weak var logoutBtn: UIButton!
     @IBOutlet weak var joinedAtDate: UILabel!
     @IBOutlet weak var numOfLikes: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        logoutBtn.isHidden = true
-        logoutBtn.layer.borderWidth = 1
-        logoutBtn.layer.masksToBounds = false
-        //        logoutBtn.layer.borderColor = UIColor.black.cgColor
-        logoutBtn.layer.cornerRadius = logoutBtn.frame.height / 2
-        logoutBtn.clipsToBounds = true
         img.layer.borderWidth = 1
         img.layer.masksToBounds = false
         img.layer.borderColor = UIColor.black.cgColor
@@ -55,9 +48,9 @@ class ProfileShowViewController: UIViewController, UITableViewDelegate,  UITable
         } else {
             if profileName == "" {
                 profileName = postsModel.postsInstance.LoggedInUser()
-                logoutBtn.isHidden = false
+//                logoutBtn.isHidden = false
             } else{
-                logoutBtn.isHidden = true
+//                logoutBtn.isHidden = true
             }
             profile = postsModel.postsInstance.getProfileByName(name: profileName)
             userName.text = profileName
@@ -118,8 +111,6 @@ class ProfileShowViewController: UIViewController, UITableViewDelegate,  UITable
         pst.isDeleted = true
         postsModel.postsInstance.updatePost(post: pst)
         data.remove(at: indexPath.row)
-        //        tableView.reloadData()
-        //        self.tabBarController?.selectedIndex = 0
     }
     
     @objc func editButtonClick(sender: UIButton) {
@@ -136,7 +127,5 @@ class ProfileShowViewController: UIViewController, UITableViewDelegate,  UITable
     }
     
     @IBAction func backFromEditPost(segue:UIStoryboardSegue){
-        //        data = postsModel.postsInstance.getAllPostsForProfile(name: profileName)
-        //        tableView.reloadData()
     }
 }

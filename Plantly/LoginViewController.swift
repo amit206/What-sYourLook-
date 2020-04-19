@@ -8,29 +8,13 @@
 
 import UIKit
 
-//protocol LoginViewControllerDelegate {
-//    func onLoginSuccess();
-//    func onLoginCancell();
-//}
-
 class LoginViewController: UIViewController {
-    //    var delegate:LoginViewControllerDelegate?
     
     @IBOutlet weak var userName: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var errorMsg: UILabel!
     
-    //    static func factory()->LoginViewController{
-    //        return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "LoginViewController")
-    //    }
-    //    @objc func back(sender: UIBarButtonItem) {
-    //        //        performSegue(withIdentifier: "cancelLoginSegue", sender: self)
-    //        self.navigationController?.popViewController(animated: true);
-    //
-    //        if let delegate = delegate{
-    //            delegate.onLoginCancell()
-    //        }
-    //    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,20 +45,8 @@ class LoginViewController: UIViewController {
         if !postsModel.postsInstance.logIn(userName: userName.text!, pwd: password.text! ){
             errorMsg.isHidden = false
         } else {
-            ModelEvents.PostDataNotification.post()
             errorMsg.isHidden = true
             self.navigationController?.popViewController(animated: true);
         }
     }
 }
-/*
- // MARK: - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
- // Get the new view controller using segue.destination.
- // Pass the selected object to the new view controller.
- }
- */
-
-//}

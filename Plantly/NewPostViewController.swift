@@ -66,23 +66,28 @@ UINavigationControllerDelegate{
         saveBtn.isEnabled = false
         if let image = selectedImage{
             postsModel.postsInstance.saveImage(image: image) { (url) in
-                print("saved image url \(url)");
-                let date = Date()
-                let formatter = DateFormatter()
-                formatter.dateFormat = "HH:mm:ss.SSS"
-                let pst = Post(id: postsModel.postsInstance.LoggedInUser() + formatter.string(from: date), postText: self.pstText.text!, imgUrl: url, uName: postsModel.postsInstance.LoggedInUser())
+                var postId:String
+                if let myPost = self.postToEdit{
+                    postId = myPost.id
+                } else {
+                    let date = Date()
+                    let formatter = DateFormatter()
+                    formatter.dateFormat = "HH:mm:ss.SSS"
+                    postId = postsModel.postsInstance.LoggedInUser() + formatter.string(from: date)
+                }
+                let pst = Post(id: postId, postText: self.pstText.text!, imgUrl: url, uName: postsModel.postsInstance.LoggedInUser())
                 postsModel.postsInstance.addPost(post: pst);
                 self.pstText.text = ""
                 self.ImgV.image = nil
+                self.navigationController?.popViewController(animated: true);
                 self.tabBarController?.selectedIndex = 0
+                self.performSegue(withIdentifier: "EditPostSegue", sender: self)
             }
         } else if let myPost = self.postToEdit{
             let pst = Post(id: myPost.id, postText: self.pstText.text!, imgUrl: myPost.imgUrl, uName: postsModel.postsInstance.LoggedInUser())
             postsModel.postsInstance.addPost(post: pst);
             self.pstText.text = ""
             self.ImgV.image = nil
-//            self.navigationController?.popViewController(animated: true);
-            
             performSegue(withIdentifier: "EditPostSegue", sender: self)
         }
     }

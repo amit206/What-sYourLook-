@@ -19,6 +19,7 @@ extension postsModel {
     func logIn(userName:String, pwd:String)->Bool{
         if modelSql.loginProfile(name: userName, pass: pwd){
             self.logedInUser = userName;
+            ModelEvents.PostDataNotification.post()
             return true
         } else {
             return false
@@ -27,10 +28,11 @@ extension postsModel {
     
     func logOut(){
         self.logedInUser = "";
+        ModelEvents.PostDataNotification.post()
     }
     
-    func register(user:String, email:String, pwd:String, callback:(Bool)->Void){
-        self.logedInUser = user;
-        callback(true);
+    func register(profile: Profile){
+        modelFirebase.addUser(profile: profile)
+        self.logedInUser = profile.userName;
     }
 }
