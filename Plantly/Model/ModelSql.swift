@@ -31,9 +31,9 @@ class PostModelSql{
     func create(){
         var errormsg: UnsafeMutablePointer<Int8>? = nil
         
-//                sqlite3_exec(database, "drop TABLE  LIKES", nil, nil, &errormsg);//todo:delete me
-//                sqlite3_exec(database, "drop TABLE  POSTS", nil, nil, &errormsg);//todo:delete me
-//                sqlite3_exec(database, "drop TABLE USERS", nil, nil, &errormsg);//todo:delete me
+//                sqlite3_exec(database, "drop TABLE  LIKES", nil, nil, &errormsg);
+//                sqlite3_exec(database, "drop TABLE  POSTS", nil, nil, &errormsg);
+//                sqlite3_exec(database, "drop TABLE USERS", nil, nil, &errormsg);
         
         var res = sqlite3_exec(database, "CREATE TABLE IF NOT EXISTS POSTS (PST_ID TEXT PRIMARY KEY, USR_ID TEXT, PST_TEXT TEXT, IMG_URL TEXT, DATE TEXT)", nil, nil, &errormsg);
         if(res != 0){
@@ -108,9 +108,7 @@ class PostModelSql{
                 let pstText = String(cString:sqlite3_column_text(sqlite3_stmt_post,2)!)
                 let img = String(cString:sqlite3_column_text(sqlite3_stmt_post,3)!)
                 let pstDate = String(cString:sqlite3_column_text(sqlite3_stmt_post,4)!)
-                //                print(pstDate)
                 let likesNum = String(cString:sqlite3_column_text(sqlite3_stmt_post,5)!)
-                //                print(String(cString:sqlite3_column_text(sqlite3_stmt_post,6)!))
                 if((String(cString:sqlite3_column_text(sqlite3_stmt_post,6)!))=="1"){
                     curUsrLike = true
                 }else {

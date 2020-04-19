@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import Firebase
-//import CommonCrypto
 
 class FirebaseStorage {
     
@@ -43,17 +42,4 @@ class FirebaseStorage {
         let strTimeStamp: String = "\(milliseconds)"
         return strTimeStamp
     }
-    
-//    static func getMD5(data: Data) -> String {
-//        var digest = [UInt8](repeating: 0, count: Int(CC_MD5_DIGEST_LENGTH))
-//        var d =  data.withUnsafeBytes { bytes in
-//            CC_MD5(bytes, CC_LONG(data.count), &digest)
-//        }
-//        var digestHex = ""
-//        for index in 0..<Int(CC_MD5_DIGEST_LENGTH) {
-//            digestHex += String(format: "%02x", digest[index])
-//        }
-//        return digestHex
-//    }
-    
 }
