@@ -33,7 +33,7 @@ class PostsTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        reloadData()
+//        reloadData()
     }
     
     deinit{
@@ -122,15 +122,11 @@ class PostsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let secondVc:ProfileShowViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "ProfileViewController");
-        secondVc.profileName = data[indexPath.row].uName
-        present(secondVc, animated: true, completion: nil);
-        
-        
+        let ProfileVc:ProfileShowViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "ProfileViewController");
+        ProfileVc.profileName = data[indexPath.row].uName
+        present(ProfileVc, animated: true, completion: nil);
     }
     
     @IBAction func backFromCancelLogin(segue:UIStoryboardSegue){
-        
     }
-    
 }

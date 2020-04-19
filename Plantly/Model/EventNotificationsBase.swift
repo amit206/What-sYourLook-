@@ -10,7 +10,7 @@ import Foundation
 
 class ModelEvents{
     static let PostDataNotification = ModelEventsTemplate(name: "WhatsYourLook.PostDataNotification");
-    //    static let LoginStateNotification = ModelEventsTemplate(name: "com.menachi.LoginStateNotification");
+        static let PostEditedNotification = ModelEventsTemplate(name: "WhatsYourLook.PostEditedNotification");
     
     
     static func removeObserver(observer:Any){

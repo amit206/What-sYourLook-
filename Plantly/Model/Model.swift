@@ -96,7 +96,7 @@ class postsModel {
                     
                     // get the complete student list
                     let finalData = self.modelSql.getAllPosts()
-                    
+                    ModelEvents.PostEditedNotification.post()
                     callback(finalData);
                 }
             }

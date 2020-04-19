@@ -15,25 +15,38 @@ class ProfileShowViewController: UIViewController, UITableViewDelegate,  UITable
             tableView.reloadData()
         }
     }
+    
+    var observer:Any?;
     var profileName:String = ""
     private var profile:Profile?
     @IBOutlet weak var img: UIImageView!
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var userName: UILabel!
-    
+    @IBOutlet weak var logoutBtn: UIButton!
     @IBOutlet weak var joinedAtDate: UILabel!
     @IBOutlet weak var numOfLikes: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        logoutBtn.isHidden = true
+        logoutBtn.layer.borderWidth = 1
+        logoutBtn.layer.masksToBounds = false
+        //        logoutBtn.layer.borderColor = UIColor.black.cgColor
+        logoutBtn.layer.cornerRadius = logoutBtn.frame.height / 2
+        logoutBtn.clipsToBounds = true
         img.layer.borderWidth = 1
         img.layer.masksToBounds = false
         img.layer.borderColor = UIColor.black.cgColor
         img.layer.cornerRadius = img.frame.height / 2
         img.clipsToBounds = true
+        
+        observer = ModelEvents.PostEditedNotification.observe{
+            if self.profileName != ""{
+                self.data = postsModel.postsInstance.getAllPostsForProfile(name: self.profileName)
+            }
+        }
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if profileName == "" && postsModel.postsInstance.LoggedInUser() == ""{
@@ -42,6 +55,9 @@ class ProfileShowViewController: UIViewController, UITableViewDelegate,  UITable
         } else {
             if profileName == "" {
                 profileName = postsModel.postsInstance.LoggedInUser()
+                logoutBtn.isHidden = false
+            } else{
+                logoutBtn.isHidden = true
             }
             profile = postsModel.postsInstance.getProfileByName(name: profileName)
             userName.text = profileName
@@ -108,17 +124,19 @@ class ProfileShowViewController: UIViewController, UITableViewDelegate,  UITable
     
     @objc func editButtonClick(sender: UIButton) {
         let indexPath = IndexPath(item: sender.tag, section: 0)
-        //            if(sender.tintColor == UIColor.red){
-        //                data[sender.tag].curuserlike = false
-        //                data[sender.tag].likesCount = data[sender.tag].likesCount - 1
-        sender.tintColor = nil
-        //                postsModel.postsInstance.removeLikeCurUser(postId: String(data[sender.tag].id))
-        //            } else {
-        //                data[sender.tag].curuserlike = true
-        //                data[sender.tag].likesCount = data[sender.tag].likesCount + 1
-        //                sender.tintColor = UIColor.red
-        //                postsModel.postsInstance.addLikeCurUser(postId: String(data[sender.tag].id))
-        //            }
-        //            self.tableView.reloadRows(at: [indexPath], with: .none)
+        let EditPostVc:NewPostViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "NewPostViewController");
+        EditPostVc.postToEdit = data[indexPath.row]
+        EditPostVc.title = "Edit post"
+        present(EditPostVc, animated: true, completion: nil);
+    }
+    @IBAction func logOut(_ sender: Any) {
+        postsModel.postsInstance.logOut()
+        profileName = ""
+        self.tabBarController?.selectedIndex = 0
+    }
+    
+    @IBAction func backFromEditPost(segue:UIStoryboardSegue){
+        //        data = postsModel.postsInstance.getAllPostsForProfile(name: profileName)
+        //        tableView.reloadData()
     }
 }

@@ -31,9 +31,9 @@ class PostModelSql{
     func create(){
         var errormsg: UnsafeMutablePointer<Int8>? = nil
         
-        //        sqlite3_exec(database, "drop TABLE  LIKES", nil, nil, &errormsg);//todo:delete me
+//                sqlite3_exec(database, "drop TABLE  LIKES", nil, nil, &errormsg);//todo:delete me
 //                sqlite3_exec(database, "drop TABLE  POSTS", nil, nil, &errormsg);//todo:delete me
-        //        sqlite3_exec(database, "drop TABLE USERS", nil, nil, &errormsg);//todo:delete me
+//                sqlite3_exec(database, "drop TABLE USERS", nil, nil, &errormsg);//todo:delete me
         
         var res = sqlite3_exec(database, "CREATE TABLE IF NOT EXISTS POSTS (PST_ID TEXT PRIMARY KEY, USR_ID TEXT, PST_TEXT TEXT, IMG_URL TEXT, DATE TEXT)", nil, nil, &errormsg);
         if(res != 0){
@@ -170,8 +170,7 @@ class PostModelSql{
     
     func getProfile(name:String)->Profile?{
         var sqlite3_stmt_profile: OpaquePointer? = nil
-//        var profile:Profile
-        if (sqlite3_prepare_v2(database,"SELECT users.AVATAR, users.DATE, sum (( select count( * ) from likes where likes.pst_id = posts.pst_id )) FROM USERS LEFT JOIN posts ON users.USR_NAME = posts.usr_id LEFT JOIN likes ON likes.pst_id = posts.pst_id WHERE USR_NAME = ? group by users.AVATAR, users.DATE;",-1,&sqlite3_stmt_profile,nil)
+        if (sqlite3_prepare_v2(database,"SELECT users.AVATAR, users.DATE, sum (( select count( * ) from likes where likes.pst_id = posts.pst_id )) FROM USERS LEFT JOIN posts ON users.USR_NAME = posts.usr_id WHERE USR_NAME = ? group by users.AVATAR, users.DATE;",-1,&sqlite3_stmt_profile,nil)
             == SQLITE_OK){
             
             sqlite3_bind_text(sqlite3_stmt_profile, 1, name,-1,SQLITE_TRANSIENT);
@@ -184,8 +183,6 @@ class PostModelSql{
                 sqlite3_finalize(sqlite3_stmt_profile)
                 return Profile(userName: name, likesCount: likesCount ?? 0, avatar: avatar, date: date)
             }
-            
-//            return profile
         }
         sqlite3_finalize(sqlite3_stmt_profile)
         return nil
@@ -210,6 +207,27 @@ class PostModelSql{
         }
         sqlite3_finalize(sqlite3_stmt_post)
         return data
+    }
+    
+    func loginProfile(name:String, pass:String)->Bool{
+        var sqlite3_stmt_profile: OpaquePointer? = nil
+        if (sqlite3_prepare_v2(database,"SELECT USR_NAME FROM USERS  WHERE USR_NAME = ? and password =?;",-1,&sqlite3_stmt_profile,nil)
+            == SQLITE_OK){
+            
+            sqlite3_bind_text(sqlite3_stmt_profile, 1, name,-1,SQLITE_TRANSIENT);
+            sqlite3_bind_text(sqlite3_stmt_profile, 2, pass,-1,SQLITE_TRANSIENT);
+            
+            if(sqlite3_step(sqlite3_stmt_profile) == SQLITE_ROW){
+                print( String(cString:sqlite3_column_text(sqlite3_stmt_profile,0)!))
+                sqlite3_finalize(sqlite3_stmt_profile)
+                return true
+            } else {
+                sqlite3_finalize(sqlite3_stmt_profile)
+                return false
+            }
+        }
+        sqlite3_finalize(sqlite3_stmt_profile)
+        return false
     }
     
     func setLastUpdate(name:String, lastUpdated:Int64){

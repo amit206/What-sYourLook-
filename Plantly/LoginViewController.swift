@@ -14,14 +14,15 @@ import UIKit
 //}
 
 class LoginViewController: UIViewController {
-//    var delegate:LoginViewControllerDelegate?
-
+    //    var delegate:LoginViewControllerDelegate?
+    
     @IBOutlet weak var userName: UITextField!
     @IBOutlet weak var password: UITextField!
+    @IBOutlet weak var errorMsg: UILabel!
     
-//    static func factory()->LoginViewController{
-//        return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "LoginViewController")
-//    }
+    //    static func factory()->LoginViewController{
+    //        return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "LoginViewController")
+    //    }
     //    @objc func back(sender: UIBarButtonItem) {
     //        //        performSegue(withIdentifier: "cancelLoginSegue", sender: self)
     //        self.navigationController?.popViewController(animated: true);
@@ -32,38 +33,48 @@ class LoginViewController: UIViewController {
     //    }
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        errorMsg.isHidden = true
+        
         // hook to the nav back button
         self.navigationItem.hidesBackButton = true
         let newBackBtn = UIBarButtonItem(title: "Cancel", style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.back(sender:)))
         self.navigationItem.leftBarButtonItem = newBackBtn
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if postsModel.postsInstance.LoggedInUser() != ""{
+            self.navigationController?.popViewController(animated: true);
+        }
+    }
+    
     static func factory()->LoginViewController{
         return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "LoginViewController");
     }
     
-        @objc func back(sender: UIBarButtonItem) {
-            performSegue(withIdentifier: "cancelLoginSegue", sender: self)
+    @objc func back(sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "cancelLoginSegue", sender: self)
     }
     
     @IBAction func login(_ sender: UIButton) {
-        postsModel.postsInstance.logIn(userName: userName.text!, pwd: password.text! ){ (success) in
-            if (success){
-                self.navigationController?.popViewController(animated: true);
-
-                }
-            }
+        if !postsModel.postsInstance.logIn(userName: userName.text!, pwd: password.text! ){
+            errorMsg.isHidden = false
+        } else {
+            ModelEvents.PostDataNotification.post()
+            errorMsg.isHidden = true
+            self.navigationController?.popViewController(animated: true);
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+}
+/*
+ // MARK: - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+ // Get the new view controller using segue.destination.
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 //}
