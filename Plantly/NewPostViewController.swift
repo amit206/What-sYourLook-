@@ -10,7 +10,7 @@ import UIKit
 
 class NewPostViewController: UIViewController,
     UIImagePickerControllerDelegate,
-UINavigationControllerDelegate {
+UINavigationControllerDelegate{
     
     @IBOutlet weak var avatar: UIImageView!
     @IBOutlet weak var pstText: UITextField!
@@ -18,10 +18,15 @@ UINavigationControllerDelegate {
     @IBOutlet weak var upImg: UIButton!
     @IBOutlet weak var saveBtn: UIButton!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        takePic()
-        activity.isHidden = true;
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if postsModel.postsInstance.LoggedInUser() == ""{
+            let loginVC = LoginViewController.factory()
+            show(loginVC, sender: self)
+        } else {
+            takePic()
+            activity.isHidden = true;
+        }
     }
     
     @IBAction func choosePic(_ sender: UIButton) {
@@ -59,8 +64,10 @@ UINavigationControllerDelegate {
                 let formatter = DateFormatter()
                 formatter.dateFormat = "HH:mm:ss.SSS"
                 
-                let pst = Post(id: "Uname" + formatter.string(from: date), postText: self.pstText.text!, imgUrl: url, uName: "2")//TODO:X2
+                let pst = Post(id: postsModel.postsInstance.LoggedInUser() + formatter.string(from: date), postText: self.pstText.text!, imgUrl: url, uName: postsModel.postsInstance.LoggedInUser())
                 postsModel.postsInstance.addPost(post: pst);
+                self.pstText.text = ""
+                self.avatar.image = nil
                 self.tabBarController?.selectedIndex = 0
                 
             }

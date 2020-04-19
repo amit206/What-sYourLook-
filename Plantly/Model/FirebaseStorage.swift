@@ -19,8 +19,7 @@ class FirebaseStorage {
         
         let data = image.jpegData(compressionQuality: 0.8)
         
-        //TODO: replace "image" with user id
-        let imageName:String = "image" + self.getCurrentTimeStampWOMiliseconds(dateToConvert: NSDate()) + String(Int.random(in: 1..<99999999999));
+        let imageName:String = postsModel.postsInstance.LoggedInUser() + self.getCurrentTimeStampWOMiliseconds(dateToConvert: NSDate()) + String(Int.random(in: 1..<99999999999));
         let imageRef = storageRef.child(imageName)
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg"

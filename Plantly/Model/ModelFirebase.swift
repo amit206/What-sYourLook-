@@ -34,13 +34,21 @@ class ModelFirebase{
         }
     }
     
-    func removePost(postId:String){
+    func updatePost(post:Post){
         let db = Firestore.firestore()
-        db.collection("posts").document(postId).delete() { err in
+        db.collection("posts").document(post.id).updateData([
+            "PST_TEXT":post.postText,
+            "IMG_URL":post.imgUrl,
+            "lastUpdate":FieldValue.serverTimestamp(),
+            "isDeleted":post.isDeleted
+                    ]) { err in
             if let err = err {
-                print("Error removing document: \(err)")
+                print("Error updating document: \(err)")
             } else {
-                print("Document successfully removed!")
+                print("Document successfully updated!")
+                
+                //todo if deleted delete like
+                ModelEvents.PostDataNotification.post()
             }
         }
     }
@@ -85,13 +93,13 @@ class ModelFirebase{
             } else {
                 var data = [Post]();
                 for document in querySnapshot!.documents {
-                    if let ts = document.data()["lastUpdate"] as? Timestamp{
-                        let tsDate = ts.dateValue();
-                        print("\(tsDate)");
-                        let tsDouble = tsDate.timeIntervalSince1970;
-                        print("\(tsDouble)");
-                        
-                    }
+//                    if let ts = document.data()["lastUpdate"] as? Timestamp{
+//                        let tsDate = ts.dateValue();
+//                        print("\(tsDate)");
+//                        let tsDouble = tsDate.timeIntervalSince1970;
+//                        print("\(tsDouble)");
+//                        
+//                    }
                     data.append(Post(json: document.data()));
                 }
                 callback(data);
@@ -99,7 +107,7 @@ class ModelFirebase{
         };
     }
     
-    func getAllProfiles(since:Int64, callback: @escaping ([Profile]?)->Void){//TODO
+    func getAllProfiles(since:Int64, callback: @escaping ([Profile]?)->Void){
         let db = Firestore.firestore()
         
         db.collection("users").order(by: "lastUpdate").start(at: [Timestamp(seconds: since, nanoseconds: 1)]).getDocuments { (querySnapshot, err) in
@@ -109,13 +117,13 @@ class ModelFirebase{
             } else {
                 var data = [Profile]();
                 for document in querySnapshot!.documents {
-                    if let ts = document.data()["lastUpdate"] as? Timestamp{
-                        let tsDate = ts.dateValue();
-                        //                        print("\(tsDate)");
-                        let tsDouble = tsDate.timeIntervalSince1970;
-                        //                        print("\(tsDouble)");
-                        
-                    }
+//                    if let ts = document.data()["lastUpdate"] as? Timestamp{
+//                        let tsDate = ts.dateValue();
+//                        //                        print("\(tsDate)");
+//                        let tsDouble = tsDate.timeIntervalSince1970;
+//                        //                        print("\(tsDouble)");
+//
+//                    }
                     data.append(Profile(json: document.data()));
                 }
                 callback(data);
@@ -133,13 +141,13 @@ class ModelFirebase{
             } else {
                 var data = [Like]();
                 for document in querySnapshot!.documents {
-                    if let ts = document.data()["lastUpdate"] as? Timestamp{
-                        let tsDate = ts.dateValue();
-                        print("\(tsDate)");
-                        let tsDouble = tsDate.timeIntervalSince1970;
-                        print("\(tsDouble)");
-                        
-                    }
+//                    if let ts = document.data()["lastUpdate"] as? Timestamp{
+//                        let tsDate = ts.dateValue();
+//                        print("\(tsDate)");
+//                        let tsDouble = tsDate.timeIntervalSince1970;
+//                        print("\(tsDouble)");
+//
+//                    }
                     data.append(Like(json: document.data()));
                 }
                 callback(data);

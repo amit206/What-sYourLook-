@@ -15,6 +15,7 @@ class postsModel {
     
     var modelFirebase:ModelFirebase = ModelFirebase()
     var modelSql:PostModelSql = PostModelSql()
+    var logedInUser = ""
     
     private init(){
         //        modelSql.setLastUpdate(name: "POSTS", lastUpdated: 1)
@@ -26,17 +27,17 @@ class postsModel {
         modelFirebase.addPost(post: post)
     }
     
-    func removePost(postId:String){
-        modelFirebase.removePost(postId: postId)
+    func updatePost(post:Post){
+        modelFirebase.updatePost(post: post)
     }
     
     func addLikeCurUser(postId:String){
-        let like:Like = Like(postId: postId, usrId: "2", isDeleted: false)//TODO:
+        let like:Like = Like(postId: postId, usrId: postsModel.postsInstance.LoggedInUser(), isDeleted: false)
         self.modelSql.addLike(like: like)
         modelFirebase.updateLike(like: like)
     }
     func removeLikeCurUser(postId:String){
-        let like:Like = Like(postId: postId, usrId: "2", isDeleted: true)//TODO:
+        let like:Like = Like(postId: postId, usrId: postsModel.postsInstance.LoggedInUser(), isDeleted: true)
         self.modelSql.removeLike(like: like)
         modelFirebase.updateLike(like: like)
     }

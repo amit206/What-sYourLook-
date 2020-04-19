@@ -14,6 +14,8 @@ class PostsTableViewController: UITableViewController {
     var data = [Post]()
     var observer:Any?;
     
+//    @IBOutlet var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,6 +28,12 @@ class PostsTableViewController: UITableViewController {
         
         self.refreshControl?.beginRefreshing()
         reloadData();
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reloadData()
     }
     
     deinit{
@@ -89,70 +97,40 @@ class PostsTableViewController: UITableViewController {
     
     
     @objc func didButtonClick(sender: UIButton) {
-        let indexPath = IndexPath(item: sender.tag, section: 0)
-        if(sender.tintColor == UIColor.red){
-            data[sender.tag].curuserlike = false
-            data[sender.tag].likesCount = data[sender.tag].likesCount - 1
-            sender.tintColor = UIColor.lightGray
-            postsModel.postsInstance.removeLikeCurUser(postId: String(data[sender.tag].id))
+        if postsModel.postsInstance.LoggedInUser() == "" {
+            let loginVC = LoginViewController.factory()
+            show(loginVC, sender: self)
         } else {
-            data[sender.tag].curuserlike = true
-            data[sender.tag].likesCount = data[sender.tag].likesCount + 1
-            sender.tintColor = UIColor.red
-            postsModel.postsInstance.addLikeCurUser(postId: String(data[sender.tag].id))
+            let indexPath = IndexPath(item: sender.tag, section: 0)
+            if(sender.tintColor == UIColor.red){
+                data[sender.tag].curuserlike = false
+                data[sender.tag].likesCount = data[sender.tag].likesCount - 1
+                sender.tintColor = UIColor.lightGray
+                postsModel.postsInstance.removeLikeCurUser(postId: String(data[sender.tag].id))
+            } else {
+                data[sender.tag].curuserlike = true
+                data[sender.tag].likesCount = data[sender.tag].likesCount + 1
+                sender.tintColor = UIColor.red
+                postsModel.postsInstance.addLikeCurUser(postId: String(data[sender.tag].id))
+            }
+            self.tableView.reloadRows(at: [indexPath], with: .none)
         }
-        self.tableView.reloadRows(at: [indexPath], with: .none)
     }
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
     
     
     // MARK: - Navigation
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "ShowProfileSegue"){
-            let vc:ProfileShowViewController = segue.destination as! ProfileShowViewController
-            vc.profileName = selected
-        }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let secondVc:ProfileShowViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "ProfileViewController");
+        secondVc.profileName = data[indexPath.row].uName
+        present(secondVc, animated: true, completion: nil);
+        
+        
     }
     
-    var selected:String = ""
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selected = data[indexPath.row].uName
-        performSegue(withIdentifier: "ShowProfileSegue", sender: self)
+    @IBAction func backFromCancelLogin(segue:UIStoryboardSegue){
+        
     }
     
 }

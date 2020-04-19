@@ -90,6 +90,7 @@ class Post {
         json["USR_ID"] = uName
         json["IMG_URL"] = imgUrl
         json["lastUpdate"] = FieldValue.serverTimestamp()
+        json["isDeleted"] = isDeleted
         return json;
     }
 }

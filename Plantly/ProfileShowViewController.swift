@@ -10,11 +10,16 @@ import UIKit
 
 class ProfileShowViewController: UIViewController, UITableViewDelegate,  UITableViewDataSource {
     
-    var data = [Post]()
+    var data = [Post](){
+        didSet {
+            tableView.reloadData()
+        }
+    }
     var profileName:String = ""
     private var profile:Profile?
     @IBOutlet weak var img: UIImageView!
     
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var userName: UILabel!
     
     @IBOutlet weak var joinedAtDate: UILabel!
@@ -27,16 +32,27 @@ class ProfileShowViewController: UIViewController, UITableViewDelegate,  UITable
         img.layer.borderColor = UIColor.black.cgColor
         img.layer.cornerRadius = img.frame.height / 2
         img.clipsToBounds = true
-        
-        profile = postsModel.postsInstance.getProfileByName(name: profileName)
-        userName.text = profileName
-        joinedAtDate.text = profile?.craetedAtDate
-        numOfLikes.text = String(profile?.likesCount ?? 0)
-        if profile?.avatar != ""{
-            img.kf.setImage(with: URL(string: profile!.avatar));
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if profileName == "" && postsModel.postsInstance.LoggedInUser() == ""{
+            let loginVC = LoginViewController.factory()
+            show(loginVC, sender: self)
+        } else {
+            if profileName == "" {
+                profileName = postsModel.postsInstance.LoggedInUser()
+            }
+            profile = postsModel.postsInstance.getProfileByName(name: profileName)
+            userName.text = profileName
+            joinedAtDate.text = profile?.craetedAtDate
+            numOfLikes.text = String(profile?.likesCount ?? 0)
+            if profile?.avatar != ""{
+                img.kf.setImage(with: URL(string: profile!.avatar));
+            }
+            data = postsModel.postsInstance.getAllPostsForProfile(name: profileName)
+            self.tableView.reloadData()
         }
-        
-        data = postsModel.postsInstance.getAllPostsForProfile(name: profileName)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -56,9 +72,19 @@ class ProfileShowViewController: UIViewController, UITableViewDelegate,  UITable
             cell.img.image = UIImage(named: "plant1")
         }
         
-        cell.delBtn.addTarget(self, action: #selector(delButtonClick(sender:)), for: .touchUpInside)
-        cell.editBtn.addTarget(self, action: #selector(editButtonClick(sender:)), for: .touchUpInside)
+        if postsModel.postsInstance.LoggedInUser() == profileName {
+            cell.editBtn.isHidden = false
+            cell.delBtn.isHidden = false
+            cell.delBtn.tag = indexPath.row
+            cell.editBtn.tag = indexPath.row
+            cell.delBtn.addTarget(self, action: #selector(delButtonClick(sender:)), for: .touchUpInside)
+            cell.editBtn.addTarget(self, action: #selector(editButtonClick(sender:)), for: .touchUpInside)
+        } else {
+            cell.editBtn.isHidden = true
+            cell.delBtn.isHidden = true
+        }
         return cell
+        
     }
     
     
@@ -70,27 +96,22 @@ class ProfileShowViewController: UIViewController, UITableViewDelegate,  UITable
     
     
     @objc func delButtonClick(sender: UIButton) {
-                    let indexPath = IndexPath(item: sender.tag, section: 0)
-        //            if(sender.tintColor == UIColor.red){
-        //                data[sender.tag].curuserlike = false
-        //                data[sender.tag].likesCount = data[sender.tag].likesCount - 1
-                        sender.tintColor = nil
-        //                postsModel.postsInstance.removeLikeCurUser(postId: String(data[sender.tag].id))
-        //            } else {
-        //                data[sender.tag].curuserlike = true
-        //                data[sender.tag].likesCount = data[sender.tag].likesCount + 1
-        //                sender.tintColor = UIColor.red
-        //                postsModel.postsInstance.addLikeCurUser(postId: String(data[sender.tag].id))
-        //            }
-        //            self.tableView.reloadRows(at: [indexPath], with: .none)
+        
+        let indexPath = IndexPath(item: sender.tag, section: 0)
+        let pst = data[indexPath.row]
+        pst.isDeleted = true
+        postsModel.postsInstance.updatePost(post: pst)
+        data.remove(at: indexPath.row)
+        //        tableView.reloadData()
+        //        self.tabBarController?.selectedIndex = 0
     }
     
     @objc func editButtonClick(sender: UIButton) {
-                    let indexPath = IndexPath(item: sender.tag, section: 0)
+        let indexPath = IndexPath(item: sender.tag, section: 0)
         //            if(sender.tintColor == UIColor.red){
         //                data[sender.tag].curuserlike = false
         //                data[sender.tag].likesCount = data[sender.tag].likesCount - 1
-                        sender.tintColor = nil
+        sender.tintColor = nil
         //                postsModel.postsInstance.removeLikeCurUser(postId: String(data[sender.tag].id))
         //            } else {
         //                data[sender.tag].curuserlike = true
